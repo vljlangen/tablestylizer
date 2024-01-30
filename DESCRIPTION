@@ -1,0 +1,15 @@
+Package: tablestylizer
+Title: Processes a TableOne Object to a Lean, More Publication-Ready Format
+Version: 0.0.0.9000
+Authors@R: 
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: This function takes a tableone object and performs various operations to make the output more suitable for publication. It includes converting rownames to column names, transferring percentage symbols, and removing unnecessary symbols.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    tableone,
+    tibble
