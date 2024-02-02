@@ -2,14 +2,17 @@ Package: tablestylizer
 Title: R Package for Styling and Formatting Tables
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person(given = "Ville",
+           family = "Langén",
+           role = c("aut", "cre"),
+           email = "first.last@example.com", 
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: This function takes a tableone object and performs various operations to make the output more suitable for publication. It includes converting rownames to column names, transferring percentage symbols, and removing unnecessary symbols.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Description: This package provides functions for styling and formatting tables, with a focus on making the output suitable for publication.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
     tableone,
-    tibble
+    tibble,
+    janitor

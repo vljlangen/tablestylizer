@@ -1,0 +1,24 @@
+Package: tablestylizer
+Title: R Package for Styling and Formatting Tables
+Version: 0.0.0.9000
+Authors@R: 
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: This package provides functions for styling and formatting tables, with a focus on making the output suitable for publication. It includes the following functions:
+
+  - `stylize_tableone`: Processes a tableone object (made with the tableone package). It converts rownames to column names, expresses percentages and standard deviations in the values, removes unnecessary symbols from the first column, and rounds p-values for improved readability.
+
+  - `stylize_p`: Rounds and formats p-values for improved readability. P-values are rounded to 1 digit unless rounding to a smaller digit is more appropriate, and values less than 0.001 are expressed as "<0.001" for enhanced clarity.
+
+  - `stylize1`: Rounds numeric values to 1 decimal unless they round to a smaller digit, and values less than 0.001 are expressed as "<0.001" for improved readability.
+
+  - `stylize2`: Rounds numeric values to 2 decimals unless they round to a smaller digit, and values less than 0.001 are expressed as "<0.001" for enhanced clarity.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    tableone,
+    tibble,
+    janitor
