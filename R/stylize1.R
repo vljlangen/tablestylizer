@@ -20,9 +20,17 @@
 #' # Returns: "<0.001"
 #'
 #' @author Ville Langén
-stylize1 <- function(x) {
+stylize1 <- function(x, threshold = NULL) {
 
   case_when(
+
+   # Add a condition to handle values below the threshold
+   !is.null(threshold) && x < threshold & x > 0 ~ paste0("<",as.character(threshold)),
+
+   # Same for negative values
+   !is.null(threshold) && x > -threshold & x < 0 ~ paste0(">-",as.character(threshold)),
+
+
 
     x < 0 & x > -0.0000005 ~ {
       formatted_value <- sprintf("%.1e", x)
