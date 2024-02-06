@@ -15,23 +15,24 @@ A data frame representing the processed tableone object.
 \description{
 This function takes a tableone object and performs various operations to make
 the output more suitable for publication. It includes converting rownames to
-column names, transferring percentage symbols, and removing unnecessary symbols.
+column names, transferring percentage symbols, removing unnecessary symbols,
+and rounding p-values using the stylize_p function.
 }
 \examples{
 # Assuming you already have a 'table1' object from CreateTableOne
 # table1 <- CreateTableOne(data = your_data, strata = "strata_var", ...)
 
 # Call the custom function to process the tableone object
-processed_table1 <- process_tableone(table1)
+stylized_table1 <- stylize_tableone(table1)
 
-# Now 'processed_table1' contains the result of all the operations
+# Now 'stylized_table1' contains the result of all the operations
 
 }
 \seealso{
 \code{\link{CreateTableOne}}
 }
 \author{
-Ville Langen
+Ville Langén
 }
 \keyword{data}
 \keyword{preprocessing}

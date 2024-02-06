@@ -1,6 +1,17 @@
-## Load packages
+#################################################################
+##                        Load packages                        ##
+#################################################################
+
 library(pacman)
 p_load(wakefield, dplyr, tidyverse, tableone)
+
+
+
+
+##################################################################
+##                     Generate random data                     ##
+##################################################################
+
 
 ## Generate random data with wakefield
 example_df <- r_data_frame(n=20, id, age, sex, height, dummy, group)
@@ -21,63 +32,101 @@ example_df$Favorite.color <- factor(example_df$Favorite.color,
                                   levels = c(1, 2, 3),
                                   labels = c("Red", "Green", "Blue"))
 
+# Code the "Dummy" variable to depict if the participant likes Coffee
+example_df <- example_df %>% rename(Likes.coffee = Dummy)
+
+# Convert to factor
+example_df$Likes.coffee <- factor(example_df$Likes.coffee,
+                                    levels = c(0, 1),
+                                    labels = c("No", "Yes"))
+
+# Reorder
+dput(names(example_df))
+#c("ID", "Age", "Sex", "Height", "Likes.coffee", "Favorite.color", "Group")
+example_df <- example_df %>% select(ID, Age, Sex, Height, Likes.coffee, Favorite.color, Group)
 
 
-## Change the order of the factor Group for nicer output in tableone
-#example_df$Group <- factor(example_df$Group, levels=c('B','A'))
+
+
+##################################################################
+##    Generate a tableone object (only 1 column, no stratas)    ##
+##################################################################
 
 
 ## Get variables names
 dput(names(example_df))
-#c("ID", "Age", "Sex", "Height", "Dummy", "Group", "Favorite.color")
+#c("ID", "Age", "Sex", "Height", "Likes.coffee", "Favorite.color", "Group")
 
 ## Vector of variables to summarize
-myVars <- c("Age", "Sex", "Height", "Dummy", "Favorite.color",  "Group")
+myVars <- c("Age", "Sex", "Height", "Likes.coffee", "Favorite.color", "Group")
 
 ## Vector of categorical variables that need transformation
-catVars <- c("Sex", "Dummy", "Favorite.color", "Group")
+catVars <- c("Sex", "Likes.coffee", "Favorite.color", "Group")
 
 ## Create a TableOne object
-tab2 <- CreateTableOne(vars = myVars, data = example_df, factorVars = catVars)
+tableone_1g <- CreateTableOne(vars = myVars, data = example_df, factorVars = catVars)
+
+## Display the TableOne object
+tableone_1g
 
 
 
-tab2
 
-## Create a TableOne object for multiple groups
-
-tab3 <- CreateTableOne(vars = myVars, strata = "Group" , data = example_df, factorVars = catVars)
-tab33 <- CreateTableOne(vars = myVars, strata = "Group" , data = example_df, factorVars = catVars, test = F)
+########################################################################
+##  Generate a tableone object (3 stratas + comparison between them)  ##
+########################################################################
 
 
+## Vector of variables to summarize
+myVars <- c("Age", "Sex", "Height", "Likes.coffee", "Favorite.color")
 
-tab3
-tab33
-
-
-print(tab3, formatOptions = list(big.mark = ",")) -> test3
-print(tab33, formatOptions = list(big.mark = ",")) -> test33
+## Vector of categorical variables that need transformation
+catVars <- c("Sex", "Likes.coffee", "Favorite.color")
 
 
+## Create a TableOne object for multiple groups and a comparison
+tableone_3g_p <- CreateTableOne(vars = myVars, strata = "Group" , data = example_df, factorVars = catVars)
 
-#
-# # Convert rownames to column names
-# test3 <- as.data.frame(test2) %>%
-#   rownames_to_column(var = "Variable")
-
-test3
+## Display the TableOne object
+tableone_3g_p
 
 
-slice
 
 
-#lempiväri, lempiruoka tms. kokeile 3 ryhmää myös, miten taulukoituu
+###########################################################################
+##  Generate a tableone object (3 stratas + no comparison between them)  ##
+###########################################################################
 
 
-# Muokkaa funktio niin, että se muuttaa seuraavilta riveiltä prosentit kuntoon,
-# kun leveleitä onkin useita.
-#
-# Favorite.color (%)                                               0.219
-#    Red                 0 (  0.0)      1 ( 14.3)      4 ( 50.0)
-#    Green               3 ( 60.0)      2 ( 28.6)      2 ( 25.0)
-#    Blue                2 ( 40.0)      4 ( 57.1)      2 ( 25.0)
+## Create a TableOne object for multiple groups, without a comparison test
+tableone_3g <- CreateTableOne(vars = myVars, strata = "Group" , data = example_df, factorVars = catVars, test = F)
+
+
+## Display the TableOne object
+tableone_3g
+
+
+
+
+#################################################################
+##            Possibly useful scripts for debugging            ##
+#################################################################
+
+
+## For debugging, a TableOne object can be converted to a common matrix
+print(tableone_1g, formatOptions = list(big.mark = ",")) -> tableone_1g_df
+print(tableone_3g_p, formatOptions = list(big.mark = ",")) -> tableone_3g_p_df
+print(tableone_3g, formatOptions = list(big.mark = ",")) -> tableone_3g_df
+
+## Rownames can be transferred to column 1 followingly:
+
+# Convert rownames to column names
+
+tableone_1g_df_no.rownames <- as.data.frame(tableone_1g_df) %>%
+                                  rownames_to_column(var = "Variable")
+
+## Display the data frame object
+tableone_1g_df_no.rownames
+
+## Give data sets more descriptive names
+tablestylizer_df <- example_df

@@ -21,25 +21,62 @@
 #'
 #' @author Ville Langén
 stylize1 <- function(x) {
+
   case_when(
-    x <= -0.05 ~ as.character(format(round_half_up(x, 1), nsmall = 1)),
-    x < -0.01 & x > -0.05 ~ as.character(format(round_half_up(x, 2), nsmall = 1)),
-    x >= -0.01 & x <= -0.001 & round_half_up(x, 2) == "-0.01"
-    ~ as.character(format(round_half_up(x, 2), nsmall = 2)),
 
-    x >= -0.01 & x <= -0.001 & round_half_up(x, 2) != "-0.01"
-    ~ as.character(format(round_half_up(x, 3), nsmall = 3)),
+    x < 0 & x > -0.0000005 ~ {
+      formatted_value <- sprintf("%.1e", x)
+      formatted_value <- gsub("e", "x10e", formatted_value)
+      # Remove leading zero after 'x10^' and handle the minus sign
+      formatted_value <- gsub("x10e-0", "x10-", formatted_value)
+      formatted_value <- gsub("x10e", "x10", formatted_value)
+      formatted_value
+    },
 
-    x > -0.001 & x < 0 ~ "-<0.001",
-    x == 0 ~ "0.00",
-    x == -0 ~ "0.00",
-    x >= 0 & x < 0.001 ~ "<0.001",
+    x > -0.000005 & x <= -0.0000005 ~ as.character(sprintf("%.6f", round_half_up(x, 6))),
+    x > -0.00005 & x <= -0.000005 ~ as.character(sprintf("%.5f", round_half_up(x, 5))),
+    x > -0.0005 & x <= -0.00005 ~ as.character(sprintf("%.4f", round_half_up(x, 4))),
+    x > -0.005 & x <= -0.0005 ~ as.character(format(round_half_up(x, 3))),
+    x > -0.05 & x <= -0.005 ~ as.character(format(round_half_up(x, 2))),
+    x <= -0.05 & x > -9999999.5 ~ as.character(format(round_half_up(x, 1), nsmall = 1)),
 
-    x >= 0.001 & x < 0.005 ~ as.character(format(round_half_up(x, 3), nsmall = 3)),
+    x <= -9999999.5 ~ {
+      formatted_value <- sprintf("%.1e", x)
+      formatted_value <- gsub("e", "x10e", formatted_value)
+      # Remove leading zero after 'x10^' and handle the minus sign
+      formatted_value <- gsub("x10e\\+0", "x10+", formatted_value)
+      formatted_value
+    },
 
-    x >= 0.005 & x < 0.05 ~ as.character(format(round_half_up(x, 2), nsmall = 2)),
-    x >= 0.05 ~ as.character(format(round_half_up(x, 1), nsmall = 1)),
+    x == 0 ~ "0.0",
+    x == -0 ~ "0.0",
+
+    x > 0 & x < 0.0000005 ~ {
+      formatted_value <- sprintf("%.1e", x)
+      formatted_value <- gsub("e", "x10e", formatted_value)
+      # Remove leading zero after 'x10^' and handle the minus sign
+      formatted_value <- gsub("x10e-0", "x10-", formatted_value)
+      formatted_value <- gsub("x10e", "x10", formatted_value)
+      formatted_value
+    },
+
+    x >= 0.0000005 & x < 0.000005 ~ as.character(sprintf("%.6f", round_half_up(x, 6))),
+    x >= 0.000005 & x < 0.00005 ~ as.character(sprintf("%.5f", round_half_up(x, 5))),
+    x >= 0.00005 & x < 0.0005 ~ as.character(sprintf("%.4f", round_half_up(x, 4))),
+    x >= 0.0005 & x < 0.005 ~ as.character(format(round_half_up(x, 3))),
+    x >= 0.005 & x < 0.05 ~ as.character(format(round_half_up(x, 2))),
+    x >= 0.05  & x < 999999.95 ~ as.character(format(round_half_up(x, 1), nsmall = 1)),
+
+
+    x > 100000 ~ {
+      formatted_value <- sprintf("%.1e", x)
+      formatted_value <- gsub("e", "x10e", formatted_value)
+      # Remove leading zero after 'x10^' and handle the minus sign
+      formatted_value <- gsub("x10e\\+0", "x10+", formatted_value)
+      formatted_value
+    },
 
     TRUE ~ "other"
   )
+
 }

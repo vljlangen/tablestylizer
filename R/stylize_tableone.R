@@ -25,7 +25,7 @@
 #' @import tableone
 #' @import dplyr
 #' @import janitor
-#' @author Ville Langen
+#' @author Ville Langén
 
 stylize_tableone <- function(table1) {
   # Convert tableone object to a printable object

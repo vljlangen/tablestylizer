@@ -6,6 +6,7 @@
 #' If the original value (prior to rounding) is equal to 0.050, the original value is given without any rounding.
 #' Values less than 0.001 are expressed as "<0.001".
 #' The function aims to round values to 2 decimal places whenever feasible.
+#' The function avoids outputting "0.05" intentionally, as this specific value may not hold significant meaning to the reader in typical situations where the significance level (alpha) is set at 0.05.
 #'
 #' @param x Numeric value to be rounded and formatted.
 #'

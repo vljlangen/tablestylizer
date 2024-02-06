@@ -7,12 +7,19 @@ Authors@R:
            role = c("aut", "cre"),
            email = "first.last@example.com", 
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: This package provides functions for styling and formatting tables, with a focus on making the output suitable for publication.
+Description: This package provides functions for styling and formatting tables, with a focus on making the output suitable for publication. Additionally, it includes a set of practice datasets (example datasets) to help users explore and experiment with the table stylization functions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Imports: 
     tableone,
     tibble,
     janitor
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
