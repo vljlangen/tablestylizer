@@ -8,11 +8,11 @@
 A tibble with 20 rows and 7 variables:
 \describe{
 \item{ID}{Unique identifier for each individual.}
-\item{Age}{Age of the individuals in years.}
-\item{Sex}{Gender of the individuals (Male or Female).}
-\item{Height}{Height of the individuals in inches.}
-\item{Likes.coffee}{Individuals' preference for coffee (Yes or No).}
-\item{Favorite.color}{Favorite color of the individuals (Red, Green, or Blue).}
+\item{Age (years)}{Age of the individuals in years.}
+\item{Women}{Indicates whether the individual is female (Yes) or not (No).}
+\item{Height (inches)}{Height of the individuals in inches.}
+\item{Likes coffee}{Individuals' preference for coffee (Yes or No).}
+\item{Favorite color}{Favorite color of the individuals (Red, Green, or Blue).}
 \item{Group}{Group affiliation of the individuals (A, B, or C).}
 }
 }
@@ -26,5 +26,9 @@ tablestylizer_df
 \description{
 This dataset provides an example of fictional data related to a group of individuals.
 It includes information such as age, sex, height, coffee preferences, favorite color, and group affiliation.
+}
+\examples{
+head(tablestylizer_df)
+
 }
 \keyword{datasets}

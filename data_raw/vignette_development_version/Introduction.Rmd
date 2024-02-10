@@ -30,6 +30,7 @@ library(tableone)
 library(tibble)
 library(dplyr)
 library(flextable)
+library(knitr)
 ```
 
 
@@ -50,9 +51,9 @@ library(flextable)
 <br/>
 <br/>
 
-# 2. Quick showcase
+# 2. Quick showcase: from raw data to publication-ready table
 
-I demonstrate here the unparalleled ease and efficiency of creating publication-ready tables using the **tableone**, **flextable**, and **tablestylizer** packages. With just a few simple commands, users can transform raw data into visually appealing and professionally formatted tables suitable for academic journals and alike.
+This section demonstrates the unparalleled ease and efficiency of creating publication-ready tables using the **tableone**, **flextable**, and **tablestylizer** packages. With just a few simple commands, users can transform raw data into visually appealing and professionally formatted tables suitable for academic journals and similar purposes.
 
 
 ```{r, ft.align="left"}
@@ -60,18 +61,14 @@ I demonstrate here the unparalleled ease and efficiency of creating publication-
 data("tablestylizer_df", package = "tablestylizer")
 
 ## Vectors for 1) all, 2) categorical variables 
-myVars <- c("Age", "Sex", "Height", "Likes.coffee", "Favorite.color")
-catVars <- c("Sex", "Likes.coffee", "Favorite.color")
+myVars <- c("Age (years)", "Women", "Height (inches)", "Likes coffee", "Favorite color")
+catVars <- c("Women", "Likes coffee", "Favorite color")
 
 ## Create and store a tableone object
 my_df <- CreateTableOne(vars = myVars, data = tablestylizer_df, factorVars = catVars)
 
 # Process the tableone object with stylize_tableone()
 my_df <- stylize_tableone(my_df)
-
-# Stylize variables as desired
-my_df[2:6,1] <- c("Age (years)","Women", "Height (inches)", "Likes coffee", "Favorite color")
-my_df <- my_df %>% rename(Value = Overall)
 
 # Create a flextable object
 ft <- my_df %>% flextable() %>% width(width = 2.5) %>%
@@ -94,11 +91,13 @@ ft
 
 ## 3.1 Motivation
 
-Motivations for this package include, but are not limited to, the following examples:
+The motivations for developing the **tablestylizer** package include, but are not limited to, the following:
 
-1. While the [tableone](https://cran.r-project.org/web/packages/tableone/vignettes/introduction.html) package is an invaluable tool for generating nearly publication-ready tables of characteristics, some additional tidying up is often required before submission to a journal.
+1. **Enhancing Tableone Functionality**: While the [tableone](https://cran.r-project.org/web/packages/tableone/vignettes/introduction.html) package is a valuable tool for generating nearly publication-ready tables of characteristics, additional tidying up is often required before submission to a journal.
 
-2. Additionally, many of the functions in tablestylizer are not limited to "Characteristics" tables but can be applied to any tables that require tasks such as rounding, offering a comprehensive set of tools for users working with tabular data in R.
+2. **Versatility Across Table Types**: Many functions in the **tablestylizer** package are not limited to "Characteristics" tables but can be applied to any tables that require tasks such as rounding, offering a comprehensive set of tools for users working with tabular data in R.
+
+3. **Eliminating Manual Tweaking**: The **tablestylizer** package aims to nullify the need for transferring data to external spreadsheet programs for manual tweaking, streamlining the data formatting process within R itself.
 
 ## 3.2 Limitations
 
@@ -118,7 +117,7 @@ To facilitate the exploration and application of the `stylize_tableone()` functi
 
 <br/>
 
-Here's a breakdown of all example datasets in the **tablestylizer** package: 
+Here's a breakdown of all example datasets in the **tablestylizer** package:
 
 | Dataset name     | Format               | Description                                                                    |
 | :--------------- | :------------------- | :----------------------------------------------------------------------------- |
@@ -147,11 +146,11 @@ The data presented above can easily be converted into a tableone object by runni
 ## Get variables names
 dput(names(tablestylizer_df))
 
-## Vector of all variables that shall be summarized by CreateTableOne 
-myVars <- c("Age", "Sex", "Height", "Likes.coffee", "Favorite.color", "Group")
+## Vector of all variables that shall be summarized by CreateTableOne
+myVars <- c("Age (years)", "Women", "Height (inches)", "Likes coffee", "Favorite color", "Group")
 
 ## Vector of categorical variables
-catVars <- c("Sex", "Likes.coffee", "Favorite.color", "Group")
+catVars <- c("Women", "Likes coffee", "Favorite color", "Group")
 
 ## Create and display tableone object
 CreateTableOne(vars = myVars, data = tablestylizer_df, factorVars = catVars)
@@ -166,7 +165,7 @@ For the sake of further practice sessions, the above tableone object is availabl
 <br/><br/>
 
 
-# 5. Tidying up tableone objects: stylize_tableone()
+# 5. Tidying up tableone objects: `stylize_tableone()`
 
 The `stylize_tableone()` function in the **tablestylizer** package is designed to enhance the presentation of tableone objects, making them more suitable for publication or presentation.
 
@@ -176,9 +175,10 @@ Here's a list of what `stylize_tableone()` does:
 
 - **Handling Means and SDs:** Annotations like "(mean (SD))" for means with standard deviations are also repositioned rightwards and formatted as "𝑥 ± 𝑦". This modification aligns with the typical presentation style in many published works, improving the overall readability of the table.
 
-
-
 - **P-value Formatting:** The default behavior of the `tableone` package expresses p-values with 3 digits. However, in many published works, p-values are commonly presented with 2 digits for brevity and clarity. The `stylize_tableone()` function aligns with this convention, expressing p-values with 2 digits whenever possible, providing a more standardized and visually appealing format.
+
+4. **Changing "Overall" to "Value"**: For one group data, the text "Overall" is changed to "Value" to enhance clarity and consistency in the table presentation.
+
 
 ## 5.1 One column of data
 
@@ -194,7 +194,7 @@ tableone_1g
 
 <br/>
 
-This tableone object can now be processed by `stylize_tableone()`. 
+This tableone object can now be processed by `stylize_tableone()`.
 
 ```{r, echo=TRUE}
 # Process the tableone object, pipe it to print() command to align left
@@ -204,32 +204,14 @@ stylize_tableone(tableone_1g) %>% print(right = FALSE)
 
 <br/>
 
-Pay always attention that the levels of the binary categorical variables come out as is desired. Here, the variable `Sex` needs adjustment.
-
-
-```{r, echo=TRUE}
-
-# Process the tableone object, store it to "table_1"
-table_1 <- stylize_tableone(tableone_1g)
-
-# Recode the text for the variable "sex"
-table_1[3,1] <- "Women"
-
-# Print the ready "table_1" (align left)
-print(table_1, right = FALSE)
-
-```
-
-<br/>
-
-
 ## 5.1.1 Recoding of binary variables
 
-If the levels of the binary categorical factor variable need to be reversed, that can be accomplished easily. Base R can be used for this, but the easiest solution is to use the **forcats** package for this. 
+If the levels of the binary categorical factor variable need to be reversed, it can be accomplished easily. While Base R can be used for this purpose, the simplest solution is to leverage the **forcats** package.
 
-As an example, let's change `Likes.coffee` to `Dislikes.coffee`. There are a zillion different ways to accomplish this, but an easy solution is to change the order of the factor variable.
+As an example, let’s change `Likes coffee` to `Dislikes coffee`. There are numerous methods to achieve this, but one straightforward solution is to reverse the order of the factor levels.
 
-Let's start by creating a new factor variable `Likes.coffee_2` that has the order of the factor levels reversed.
+Let’s begin by creating a new factor variable, `Likes coffee 2`, with the order of the factor levels reversed.
+
 
 ```{r, echo=TRUE}
 # Load forcats
@@ -239,25 +221,24 @@ library(forcats)
 data("tablestylizer_df", package = "tablestylizer")
 
 # Create a new factor variable with reversed levels
-tablestylizer_df$Likes.coffee_2 <- fct_rev(tablestylizer_df$Likes.coffee)
+tablestylizer_df$`Likes coffee 2` <- fct_rev(tablestylizer_df$`Likes coffee`)
 
 # Display head
-head(tablestylizer_df, n=5)
+head(tablestylizer_df[,c(1,5,8)], n=5)
 
 ```
 
 <br/>
 
-When you look at the data frame above, nothing seems to have changed. However, when you create a new tableone object of those data, you can see that the order of the levels have been changed.
-
+When you examine the data frame above, it might appear that nothing has changed. However, upon creating a new tableone object with that data, you'll notice that the order of the levels has been altered.
 
 ```{r}
 
 ## Vector of all variables that shall be summarized by CreateTableOne
-myVars <- c("Likes.coffee", "Likes.coffee_2")
+myVars <- c("Likes coffee", "Likes coffee 2")
 
 ## Vector of categorical variables
-catVars <- c("Likes.coffee", "Likes.coffee_2")
+catVars <- c("Likes coffee", "Likes coffee 2")
 
 ## Create and display tableone object
 CreateTableOne(vars = myVars, data = tablestylizer_df, factorVars = catVars)
@@ -266,7 +247,7 @@ CreateTableOne(vars = myVars, data = tablestylizer_df, factorVars = catVars)
 
 <br/>
 
-Now, we know how to easily reproduce the same ready table as above but with a reversed `Likes.coffee` variable.
+Now, we know how to effortlessly reproduce the same formatted table as above, but with the `Likes coffee` variable reversed.
 
 
 ```{r}
@@ -275,13 +256,13 @@ Now, we know how to easily reproduce the same ready table as above but with a re
 data("tablestylizer_df", package = "tablestylizer")
 
 # Create a new factor variable with reversed levels
-tablestylizer_df$Likes.coffee_2 <- fct_rev(tablestylizer_df$Likes.coffee)
+tablestylizer_df$`Likes coffee 2` <- fct_rev(tablestylizer_df$`Likes coffee`)
 
-## Vector of all variables that shall be summarized by CreateTableOne 
-myVars <- c("Age", "Sex", "Height", "Likes.coffee_2", "Favorite.color", "Group")
+## Vector of all variables that shall be summarized by CreateTableOne
+myVars <- c("Age (years)", "Women", "Height (inches)", "Likes coffee 2", "Favorite color", "Group")
 
 ## Vector of categorical variables
-catVars <- c("Sex", "Likes.coffee_2", "Favorite.color", "Group")
+catVars <- c("Women", "Likes coffee 2", "Favorite color", "Group")
 
 ## Create and store a tableone object
 my_df <- CreateTableOne(vars = myVars, data = tablestylizer_df, factorVars = catVars)
@@ -293,7 +274,6 @@ my_df
 my_df <- stylize_tableone(my_df)
 
 # Rename binary variables as desired
-my_df[3,1] <- "Women"
 my_df[5,1] <- "Dislikes coffee"
 
 # Display the processed tableone object, pipe it to print() command to align left
@@ -306,7 +286,7 @@ my_df %>% print(right = FALSE)
 
 ## 5.2 Several columns of data
 
-Let's examine the example dataset `tableone_3g` of the **tablestylizer** package. This dataset contains subgroup data, where information is presented across multiple columns. 
+Let's take a closer look at the example dataset `tableone_3g` provided by the **tablestylizer** package. This dataset comprises subgroup data, presenting information across multiple columns.
 
 
 ```{r, echo=TRUE}
@@ -319,7 +299,7 @@ tableone_3g
 
 <br/>
 
-The `stylize_tableone()` function effectively manages this type of tableone object.
+The `stylize_tableone()` function adeptly handles this type of tableone object.
 
 ```{r, echo=TRUE}
 # Process the tableone object, pipe it to print() command to align left
@@ -332,7 +312,7 @@ stylize_tableone(tableone_3g) %>% print(right = FALSE)
 
 ## 5.2 Between-group comparison
 
-Now, let's explore the example dataset `tableone_3g_p` from the **tablestylizer** package. Similar to `tableone_3g`, this dataset contains subgroup data. However, `tableone_3g_p` includes additional between-group comparisons with p-values. The `stylize_tableone()` function seamlessly handles this type of tableone object. It's worth noting that `stylize_tableone()` processes the p-values using a dedicated function called `stylize_p()`, which is also part of the **tablestylizer** package.
+Now, let's examine the example dataset `tableone_3g_p` provided by the **tablestylizer** package. Similar to `tableone_3g`, this dataset contains subgroup data. However, `tableone_3g_p` includes additional between-group comparisons with p-values. The `stylize_tableone()` function seamlessly handles this type of tableone object. It's noteworthy that `stylize_tableone()` processes the p-values using a dedicated function called `stylize_p()`, which is also included in the tablestylizer package.
 
 
 ```{r, echo=TRUE}
@@ -345,7 +325,7 @@ tableone_3g_p
 
 <br/>
 
-This tableone object can now be processed by `stylize_tableone()`.
+The tableone object is now ready to undergo processing by `stylize_tableone()`.
 
 ```{r, echo=TRUE}
 # Process the tableone object, pipe it to print() command to align left
@@ -353,6 +333,146 @@ stylize_tableone(tableone_3g_p) %>% print(right = FALSE)
 
 ```
 
+<br/><br/>
+
+
+# 6. Demonstration of the `stylize1()` function
+
+In this chapter, we showcase the usage of the `stylize1` function with randomly generated data.
+
+Let's examine the following random data.
+
+```{r, echo=FALSE, message=FALSE}
+
+random_df <- 
+
+tribble(
+  ~Variable,      ~`Group A`,   ~`Group B`,    ~`Group C`,
+  "Biomarker 1",  -0.6,         -0.2,          1.6,
+  "Biomarker 2",   0.0001,       0.0003,       0.003,
+  "Biomarker 3",   355141.3,     145266.8,   -794150.6,
+  "Biomarker 4",   1300000,      -170000000,      170000000
+)
+
+# Output the stylized dataframe using kable
+kable(random_df, caption = "random_df")
+
+```
+
+<br/>
+<br/>
+
+
+The preceding data could be presented in a more polished, publication-ready format. We will now utilize the `stylize1` function to enhance the presentation of each column's data and display the result below.
+
+<br/>
+
+<blockquote style="margin-left: 40px; border-left: 4px solid #ccc; padding-left: 10px;">
+  Please note that the mutate_at() function from the dplyr package is the most efficient method for applying these transformations across an entire dataset.
+</blockquote>
+
+<br/>
+<br/>
+
+```{r, echo=TRUE}
+stylized_data <- random_df %>%
+  mutate_at(vars("Group A", "Group B", "Group C"), stylize1)
+
+# Output the stylized dataframe using kable
+kable(stylized_data, caption = "Stylized Random Data")
+
+```
 
 
 
+
+<br/><br/>
+
+
+# 7. Demonstration of the `stylize2()` function
+
+`stylize2()` functions similarly to `stylize1()`, but it aims to round values to 2 decimals instead.
+
+
+```{r, echo=TRUE}
+
+stylized_data <- random_df %>%
+  mutate_at(vars("Group A", "Group B", "Group C"), stylize2)
+
+# Output the stylized dataframe using kable
+kable(stylized_data, caption = "Stylized Random Data")
+
+```
+
+<br/><br/>
+
+
+
+# 8. Demonstration of the `stylize_p()` function
+
+The `stylize_p()` function is designed to round and format numeric values, particularly for improving readability in statistical outputs. It follows specific rules to achieve this:
+
+- Values are rounded to 2 decimal places whenever feasible.
+- The function specifically avoids outputting "0.05", as this value may not hold practical meaning for the reader when the significance level (alpha) is set at 0.05.
+- If the rounded result is equal to "0.050", the original value is retained without any rounding.
+- If the original value (prior to rounding) is equal to 0.050, the original value is retained without any rounding.
+- Values less than 0.001 are expressed as "<0.001".
+
+<br/>
+
+First, let's examine the regression results from an imaginary analysis.
+
+<br/>
+
+```{r, echo=FALSE}
+
+library(tibble)
+
+# Creating an updated imaginary tibble with more data
+random_regression_results <- tibble(
+  Outcome = c("Variable 1", "Variable 3", "Variable 5", "Variable 9"),
+  Regressor = c("Variable 2", "Variable 4", "Variable 6", "Variable 10"),
+  Beta = c(0.1234567, 0.9876543, 0.54321, 0.3456),
+  SE = c(0.0123, 0.0456, 0.00789, 0.0543),
+  `P-value` = c(0.001234, 0.056789, 0.000987, 0.0499)
+)
+ 
+# Displaying the data frame
+kable(random_regression_results, caption = "random_regression_results")
+
+```
+
+<br/>
+
+We can now apply `stylize2()` for the beta and SE columns and `stylize_p()` for the P-values.
+
+
+
+
+```{r, echo=TRUE}
+
+stylized_data <- random_regression_results %>%
+  mutate_at(vars("Beta", "SE"), stylize2)
+
+stylized_data <- stylized_data %>%
+  mutate_at(vars("P-value"), stylize_p)
+
+# Output the stylized dataframe using kable
+kable(stylized_data, caption = "Stylized Regression Results")
+
+```
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+
+
+
+  
+  
+  

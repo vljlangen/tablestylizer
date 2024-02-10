@@ -24,6 +24,7 @@
 #'
 #' @import tableone
 #' @import dplyr
+#' @import tibble
 #' @import janitor
 #' @author Ville Langén
 
@@ -94,7 +95,11 @@ stylize_tableone <- function(table1) {
     }
   }
 
-  return(table1_df)
+  # Check if the dataframe has 2 columns
+  if (ncol(table1_df) == 2) {
+    # Rename the "Overall" to "Value"
+    table1_df <- table1_df %>% rename(Value = Overall)
+  }
 
 
   return(table1_df)

@@ -45,7 +45,16 @@ dput(names(example_df))
 #c("ID", "Age", "Sex", "Height", "Likes.coffee", "Favorite.color", "Group")
 example_df <- example_df %>% select(ID, Age, Sex, Height, Likes.coffee, Favorite.color, Group)
 
+# Rename
+example_df <- example_df %>% rename(Women = Sex,
+                                     `Age (years)` = Age,
+                                     `Height (inches)` = Height,
+                                     `Likes coffee` = Likes.coffee,
+                                     `Favorite color` = Favorite.color)
 
+# Relabel
+example_df$Women <- factor(example_df$Women, levels = c("Male", "Female"),
+                      labels = c("No", "Yes"))
 
 
 ##################################################################
@@ -58,10 +67,11 @@ dput(names(example_df))
 #c("ID", "Age", "Sex", "Height", "Likes.coffee", "Favorite.color", "Group")
 
 ## Vector of variables to summarize
-myVars <- c("Age", "Sex", "Height", "Likes.coffee", "Favorite.color", "Group")
+myVars <- c("Age (years)", "Women", "Height (inches)", "Likes coffee",
+            "Favorite color", "Group")
 
 ## Vector of categorical variables that need transformation
-catVars <- c("Sex", "Likes.coffee", "Favorite.color", "Group")
+catVars <- c("Women", "Likes coffee", "Favorite color", "Group")
 
 ## Create a TableOne object
 tableone_1g <- CreateTableOne(vars = myVars, data = example_df, factorVars = catVars)
@@ -78,10 +88,12 @@ tableone_1g
 
 
 ## Vector of variables to summarize
-myVars <- c("Age", "Sex", "Height", "Likes.coffee", "Favorite.color")
+myVars <- c("Age (years)", "Women", "Height (inches)", "Likes coffee",
+            "Favorite color")
 
 ## Vector of categorical variables that need transformation
-catVars <- c("Sex", "Likes.coffee", "Favorite.color")
+catVars <- c("Women", "Likes coffee", "Favorite color")
+
 
 
 ## Create a TableOne object for multiple groups and a comparison

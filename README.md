@@ -10,14 +10,14 @@ The `tablestylizer` R package provides a set of functions for styling and format
 `stylize_tableone()` function:
 - Processes a `tableone` object to a lean, more publication-ready format.
 - Converts rownames to column names, transfers percentage symbols, and removes unnecessary symbols.
-- If a p-value column is present, it is processed using the `stylize_p` function.
+- If a p-value column is present, it is processed using the `stylize_p()` function.
 
 
 `stylize_p()` function:
 - Rounds and formats p-values for improved readability.
 - The function aims to round values to 2 decimal places whenever feasible.
 - Values less than 0.001 are expressed as "<0.001".
-- Specifically avoids outputting "0.05", as this value may not hold significant meaning when the significance level (alpha) is set at 0.05.
+- Specifically avoids outputting "0.05", as this value may not hold practical meaning for the reader when the significance level (alpha) is set at 0.05.
 - If the round result is equal to "0.050", the original value is given without any rounding.
 - If the original value (prior to rounding) is equal to 0.050, the original value is given without any rounding.
 

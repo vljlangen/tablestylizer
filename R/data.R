@@ -6,13 +6,16 @@
 #' @format A tibble with 20 rows and 7 variables:
 #' \describe{
 #'   \item{ID}{Unique identifier for each individual.}
-#'   \item{Age}{Age of the individuals in years.}
-#'   \item{Sex}{Gender of the individuals (Male or Female).}
-#'   \item{Height}{Height of the individuals in inches.}
-#'   \item{Likes.coffee}{Individuals' preference for coffee (Yes or No).}
-#'   \item{Favorite.color}{Favorite color of the individuals (Red, Green, or Blue).}
+#'   \item{Age (years)}{Age of the individuals in years.}
+#'   \item{Women}{Indicates whether the individual is female (Yes) or not (No).}
+#'   \item{Height (inches)}{Height of the individuals in inches.}
+#'   \item{Likes coffee}{Individuals' preference for coffee (Yes or No).}
+#'   \item{Favorite color}{Favorite color of the individuals (Red, Green, or Blue).}
 #'   \item{Group}{Group affiliation of the individuals (A, B, or C).}
 #' }
+#'
+#' @examples
+#' head(tablestylizer_df)
 #'
 #' @source This data is generated for the purpose of illustrating data manipulation and analysis in R.
 #' It does not represent real-world individuals or situations.
@@ -28,10 +31,13 @@
 #'
 #' @format An example tableone object with the following components:
 #' \describe{
-#'   \item{ContTable}{Summary statistics for continuous variables (Age, Height).}
-#'   \item{CatTable}{Summary statistics for categorical variables (Sex, Likes.coffee, Favorite.color, Group).}
+#'   \item{ContTable}{Summary statistics for continuous variables (Age (years), Height (inches)).}
+#'   \item{CatTable}{Summary statistics for categorical variables (Women, Likes coffee, Favorite color, Group).}
 #'   \item{MetaData}{Metadata information, including variable types and labels.}
 #' }
+#'
+#' @examples
+#' tableone_1g
 #'
 #' @source This data is generated for the purpose of providing a practice example tableone object for learning and experimenting with the tablestylizer package.
 #' It does not represent real-world individuals or situations.
@@ -42,15 +48,18 @@
 #'
 #' This dataset is an example tableone object created using the tableone package, representing a summary table of characteristics.
 #' It is generated based on the dataset "tablestylizer_df" and is in the format of a list with components for continuous (ContTable) and categorical (CatTable) variables.
-#' The table is stratified by three groups: A, B, and C. For each group, the table provides summary statistics for continuous variables (Age, Height) and categorical variables (Sex, Likes.coffee, Favorite.color).
+#' The table is stratified by three groups: A, B, and C. For each group, the table provides summary statistics for continuous variables (Age (years), Height (inches)) and categorical variables (Women, Likes coffee, Favorite color).
 #' Users can practice and explore the functionality of the tablestylizer package by tidying up this table with the tablestylizer::stylize_tableone() function.
 #'
 #' @format An example tableone object with the following components:
 #' \describe{
-#'   \item{ContTable}{Summary statistics for continuous variables (Age, Height) stratified by Groups A, B, and C.}
-#'   \item{CatTable}{Summary statistics for categorical variables (Sex, Likes.coffee, Favorite.color) stratified by Groups A, B, and C.}
+#'   \item{ContTable}{Summary statistics for continuous variables (Age (years), Height (inches)) stratified by Groups A, B, and C.}
+#'   \item{CatTable}{Summary statistics for categorical variables (Women, Likes coffee, Favorite color) stratified by Groups A, B, and C.}
 #'   \item{MetaData}{Metadata information, including variable types and labels.}
 #' }
+#'
+#' @examples
+#' tableone_3g
 #'
 #' @source This data is generated for the purpose of providing a practice tableone object with multiple strata for learning and experimenting with the tablestylizer package.
 #' It does not represent real-world individuals or situations.
@@ -61,17 +70,20 @@
 #'
 #' This dataset is an example tableone object created using the tableone package, representing a summary table of characteristics.
 #' It is generated based on the dataset "tablestylizer_df" and is in the format of a list with components for continuous (ContTable) and categorical (CatTable) variables.
-#' The table is stratified by three groups: A, B, and C. For each group, the table provides summary statistics for continuous variables (Age, Height) and categorical variables (Sex, Likes.coffee, Favorite.color).
+#' The table is stratified by three groups: A, B, and C. For each group, the table provides summary statistics for continuous variables (Age (years), Height (inches)) and categorical variables (Women, Likes coffee, Favorite color).
 #' Additionally, this table includes between-group comparison test results, including p-values.
 #' Users can practice and explore the functionality of the tablestylizer package by tidying up this table with the tablestylizer::stylize_tableone() function.
 #'
 #' @format An example tableone object with the following components:
 #' \describe{
-#'   \item{ContTable}{Summary statistics for continuous variables (Age, Height) stratified by Groups A, B, and C.}
-#'   \item{CatTable}{Summary statistics for categorical variables (Sex, Likes.coffee, Favorite.color) stratified by Groups A, B, and C.}
+#'   \item{ContTable}{Summary statistics for continuous variables (Age (years), Height (inches)) stratified by Groups A, B, and C.}
+#'   \item{CatTable}{Summary statistics for categorical variables (Women, Likes coffee, Favorite color) stratified by Groups A, B, and C.}
 #'   \item{MetaData}{Metadata information, including variable types and labels.}
 #'   \item{pValues}{Between-group comparison test results, including p-values for approximate and exact tests.}
 #' }
+#'
+#' @examples
+#' tableone_3g_p
 #'
 #' @source This data is generated for the purpose of providing a practice tableone object with multiple strata and between-group comparison test results for learning and experimenting with the tablestylizer package.
 #' It does not represent real-world individuals or situations.

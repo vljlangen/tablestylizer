@@ -7,8 +7,8 @@
 \format{
 An example tableone object with the following components:
 \describe{
-\item{ContTable}{Summary statistics for continuous variables (Age, Height).}
-\item{CatTable}{Summary statistics for categorical variables (Sex, Likes.coffee, Favorite.color, Group).}
+\item{ContTable}{Summary statistics for continuous variables (Age (years), Height (inches)).}
+\item{CatTable}{Summary statistics for categorical variables (Women, Likes coffee, Favorite color, Group).}
 \item{MetaData}{Metadata information, including variable types and labels.}
 }
 }
@@ -24,5 +24,9 @@ This dataset is an example tableone object created using the tableone package, r
 It is generated based on the dataset "tablestylizer_df" and is in the format of a list with components for continuous (ContTable) and categorical (CatTable) variables.
 Users can practice and explore the functionality of the tablestylizer package by tidying up this table with the tablestylizer::stylize_tableone() function.
 Note that in this table, all data is presented under the "Overall" column, without dividing into Groups A, B, and C.
+}
+\examples{
+tableone_1g
+
 }
 \keyword{datasets}

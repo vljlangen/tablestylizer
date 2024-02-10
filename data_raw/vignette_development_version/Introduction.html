@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ville Langén" />
 
-<meta name="date" content="2024-02-08" />
+<meta name="date" content="2024-02-10" />
 
 <title>Introduction to tablestylizer</title>
 
@@ -403,20 +403,26 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Introduction to tablestylizer</h1>
 <h4 class="author">Ville Langén</h4>
-<h4 class="date">2024-02-08</h4>
+<h4 class="date">2024-02-10</h4>
 
 
 <div id="TOC">
 <ul>
 <li><a href="#overview" id="toc-overview">1. Overview</a></li>
-<li><a href="#quick-showcase" id="toc-quick-showcase">2. Quick
-showcase</a></li>
+<li><a href="#quick-showcase-from-raw-data-to-publication-ready-table" id="toc-quick-showcase-from-raw-data-to-publication-ready-table">2.
+Quick showcase: from raw data to publication-ready table</a></li>
 <li><a href="#motivations-and-limitations" id="toc-motivations-and-limitations">3. Motivations and
 limitations</a></li>
 <li><a href="#example-datasets-for-practicing" id="toc-example-datasets-for-practicing">4. Example datasets for
 practicing</a></li>
 <li><a href="#tidying-up-tableone-objects-stylize_tableone" id="toc-tidying-up-tableone-objects-stylize_tableone">5. Tidying up
-tableone objects: stylize_tableone()</a></li>
+tableone objects: <code>stylize_tableone()</code></a></li>
+<li><a href="#demonstration-of-the-stylize1-function" id="toc-demonstration-of-the-stylize1-function">6. Demonstration of the
+<code>stylize1()</code> function</a></li>
+<li><a href="#demonstration-of-the-stylize2-function" id="toc-demonstration-of-the-stylize2-function">7. Demonstration of the
+<code>stylize2()</code> function</a></li>
+<li><a href="#demonstration-of-the-stylize_p-function" id="toc-demonstration-of-the-stylize_p-function">8. Demonstration of the
+<code>stylize_p()</code> function</a></li>
 </ul>
 </div>
 
@@ -444,20 +450,20 @@ custom rules aiming for 2 decimal places.</p></li>
 </ul>
 <p><br /> <br /></p>
 </div>
-<div id="quick-showcase" class="section level1">
-<h1>2. Quick showcase</h1>
-<p>I demonstrate here the unparalleled ease and efficiency of creating
-publication-ready tables using the <strong>tableone</strong>,
+<div id="quick-showcase-from-raw-data-to-publication-ready-table" class="section level1">
+<h1>2. Quick showcase: from raw data to publication-ready table</h1>
+<p>This section demonstrates the unparalleled ease and efficiency of
+creating publication-ready tables using the <strong>tableone</strong>,
 <strong>flextable</strong>, and <strong>tablestylizer</strong> packages.
 With just a few simple commands, users can transform raw data into
 visually appealing and professionally formatted tables suitable for
-academic journals and alike.</p>
+academic journals and similar purposes.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load the example dataset</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tablestylizer_df&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tablestylizer&quot;</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="do">## Vectors for 1) all, 2) categorical variables </span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Height&quot;</span>, <span class="st">&quot;Likes.coffee&quot;</span>, <span class="st">&quot;Favorite.color&quot;</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Likes.coffee&quot;</span>, <span class="st">&quot;Favorite.color&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age (years)&quot;</span>, <span class="st">&quot;Women&quot;</span>, <span class="st">&quot;Height (inches)&quot;</span>, <span class="st">&quot;Likes coffee&quot;</span>, <span class="st">&quot;Favorite color&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Women&quot;</span>, <span class="st">&quot;Likes coffee&quot;</span>, <span class="st">&quot;Favorite color&quot;</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="do">## Create and store a tableone object</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>my_df <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(<span class="at">vars =</span> myVars, <span class="at">data =</span> tablestylizer_df, <span class="at">factorVars =</span> catVars)</span>
@@ -465,38 +471,39 @@ academic journals and alike.</p>
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Process the tableone object with stylize_tableone()</span></span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>my_df <span class="ot">&lt;-</span> <span class="fu">stylize_tableone</span>(my_df)</span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># Stylize variables as desired</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>my_df[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age (years)&quot;</span>,<span class="st">&quot;Women&quot;</span>, <span class="st">&quot;Height (inches)&quot;</span>, <span class="st">&quot;Likes coffee&quot;</span>, <span class="st">&quot;Favorite color&quot;</span>)</span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>my_df <span class="ot">&lt;-</span> my_df <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">Value =</span> Overall)</span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co"># Create a flextable object</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>ft <span class="ot">&lt;-</span> my_df <span class="sc">%&gt;%</span> <span class="fu">flextable</span>() <span class="sc">%&gt;%</span> <span class="fu">width</span>(<span class="at">width =</span> <span class="fl">2.5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>                  <span class="fu">align</span>(<span class="at">j =</span> <span class="dv">2</span>, <span class="at">align =</span> <span class="st">&quot;center&quot;</span>, <span class="at">part =</span> <span class="st">&quot;all&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>                  <span class="fu">bold</span>(<span class="at">part =</span> <span class="st">&quot;header&quot;</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>                  <span class="fu">add_header_lines</span>(<span class="st">&quot;Table 1. Characteristics of the (imaginary) study participants.&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>                  <span class="fu">add_footer_lines</span>((<span class="st">&quot;Values are means (and standard deviations) for continuous data and numbers (and percentages) for categorical data.&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>                  <span class="fu">prepend_chunks</span>(<span class="at">i =</span> <span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">j =</span> <span class="dv">1</span>, <span class="fu">as_chunk</span>(<span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>))</span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co"># Display the ready table</span></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>ft                                </span></code></pre></div>
-<div class="tabwid tabwid_left"><style>.cl-082e8458{}.cl-082bf45e{font-family:'Helvetica';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-082bf468{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-082d0786{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-082d0787{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-082d0f4c{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-082d0f4d{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-082d0f4e{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-082d0f4f{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-082d0f56{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-082d0f57{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-082d0f58{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-082e8458"><thead><tr style="overflow-wrap:break-word;"><th colspan="2" class="cl-082d0f4c"><p class="cl-082d0786"><span class="cl-082bf45e">Table 1. Characteristics of the (imaginary) study participants.</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-082d0f4c"><p class="cl-082d0786"><span class="cl-082bf45e">Variable</span></p></th><th class="cl-082d0f4d"><p class="cl-082d0787"><span class="cl-082bf45e">Value</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-082d0f4e"><p class="cl-082d0786"><span class="cl-082bf468">n</span></p></td><td class="cl-082d0f4f"><p class="cl-082d0787"><span class="cl-082bf468">20</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-082d0f4e"><p class="cl-082d0786"><span class="cl-082bf468">Age (years)</span></p></td><td class="cl-082d0f4f"><p class="cl-082d0787"><span class="cl-082bf468">51.1 ± 18.2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-082d0f4e"><p class="cl-082d0786"><span class="cl-082bf468">Women</span></p></td><td class="cl-082d0f4f"><p class="cl-082d0787"><span class="cl-082bf468">11 (55.0%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-082d0f4e"><p class="cl-082d0786"><span class="cl-082bf468">Height (inches)</span></p></td><td class="cl-082d0f4f"><p class="cl-082d0787"><span class="cl-082bf468">68.6 ± 4.3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-082d0f4e"><p class="cl-082d0786"><span class="cl-082bf468">Likes coffee</span></p></td><td class="cl-082d0f4f"><p class="cl-082d0787"><span class="cl-082bf468">7 (35.0%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-082d0f4e"><p class="cl-082d0786"><span class="cl-082bf468">Favorite color</span></p></td><td class="cl-082d0f4f"><p class="cl-082d0787"><span class="cl-082bf468"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-082d0f4e"><p class="cl-082d0786"> <span class="cl-082bf468">   Red</span></p></td><td class="cl-082d0f4f"><p class="cl-082d0787"><span class="cl-082bf468">4 (20.0%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-082d0f4e"><p class="cl-082d0786"> <span class="cl-082bf468">   Green</span></p></td><td class="cl-082d0f4f"><p class="cl-082d0787"><span class="cl-082bf468">10 (50.0%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-082d0f56"><p class="cl-082d0786"> <span class="cl-082bf468">   Blue</span></p></td><td class="cl-082d0f57"><p class="cl-082d0787"><span class="cl-082bf468">6 (30.0%)</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="2" class="cl-082d0f58"><p class="cl-082d0786"><span class="cl-082bf468">Values are means (and standard deviations) for continuous data and numbers (and percentages) for categorical data.</span></p></td></tr></tfoot></table></div>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># Create a flextable object</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>ft <span class="ot">&lt;-</span> my_df <span class="sc">%&gt;%</span> <span class="fu">flextable</span>() <span class="sc">%&gt;%</span> <span class="fu">width</span>(<span class="at">width =</span> <span class="fl">2.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>                  <span class="fu">align</span>(<span class="at">j =</span> <span class="dv">2</span>, <span class="at">align =</span> <span class="st">&quot;center&quot;</span>, <span class="at">part =</span> <span class="st">&quot;all&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>                  <span class="fu">bold</span>(<span class="at">part =</span> <span class="st">&quot;header&quot;</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>                  <span class="fu">add_header_lines</span>(<span class="st">&quot;Table 1. Characteristics of the (imaginary) study participants.&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>                  <span class="fu">add_footer_lines</span>((<span class="st">&quot;Values are means (and standard deviations) for continuous data and numbers (and percentages) for categorical data.&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>                  <span class="fu">prepend_chunks</span>(<span class="at">i =</span> <span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">j =</span> <span class="dv">1</span>, <span class="fu">as_chunk</span>(<span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>))</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co"># Display the ready table</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>ft                                </span></code></pre></div>
+<div class="tabwid tabwid_left"><style>.cl-26901b14{}.cl-268d4ad8{font-family:'Helvetica';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-268d4ae2{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-268e68e6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-268e68f0{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-268e7106{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-268e7107{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-268e7108{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-268e7109{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-268e710a{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-268e7110{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-268e7111{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-26901b14"><thead><tr style="overflow-wrap:break-word;"><th colspan="2" class="cl-268e7106"><p class="cl-268e68e6"><span class="cl-268d4ad8">Table 1. Characteristics of the (imaginary) study participants.</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-268e7106"><p class="cl-268e68e6"><span class="cl-268d4ad8">Variable</span></p></th><th class="cl-268e7107"><p class="cl-268e68f0"><span class="cl-268d4ad8">Value</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-268e7108"><p class="cl-268e68e6"><span class="cl-268d4ae2">n</span></p></td><td class="cl-268e7109"><p class="cl-268e68f0"><span class="cl-268d4ae2">20</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-268e7108"><p class="cl-268e68e6"><span class="cl-268d4ae2">Age (years)</span></p></td><td class="cl-268e7109"><p class="cl-268e68f0"><span class="cl-268d4ae2">51.0 ± 21.2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-268e7108"><p class="cl-268e68e6"><span class="cl-268d4ae2">Women</span></p></td><td class="cl-268e7109"><p class="cl-268e68f0"><span class="cl-268d4ae2">11 (55.0%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-268e7108"><p class="cl-268e68e6"><span class="cl-268d4ae2">Height (inches)</span></p></td><td class="cl-268e7109"><p class="cl-268e68f0"><span class="cl-268d4ae2">68.3 ± 2.2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-268e7108"><p class="cl-268e68e6"><span class="cl-268d4ae2">Likes coffee</span></p></td><td class="cl-268e7109"><p class="cl-268e68f0"><span class="cl-268d4ae2">8 (40.0%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-268e7108"><p class="cl-268e68e6"><span class="cl-268d4ae2">Favorite color</span></p></td><td class="cl-268e7109"><p class="cl-268e68f0"><span class="cl-268d4ae2"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-268e7108"><p class="cl-268e68e6"> <span class="cl-268d4ae2">   Red</span></p></td><td class="cl-268e7109"><p class="cl-268e68f0"><span class="cl-268d4ae2">6 (30.0%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-268e7108"><p class="cl-268e68e6"> <span class="cl-268d4ae2">   Green</span></p></td><td class="cl-268e7109"><p class="cl-268e68f0"><span class="cl-268d4ae2">7 (35.0%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-268e710a"><p class="cl-268e68e6"> <span class="cl-268d4ae2">   Blue</span></p></td><td class="cl-268e7110"><p class="cl-268e68f0"><span class="cl-268d4ae2">7 (35.0%)</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="2" class="cl-268e7111"><p class="cl-268e68e6"><span class="cl-268d4ae2">Values are means (and standard deviations) for continuous data and numbers (and percentages) for categorical data.</span></p></td></tr></tfoot></table></div>
 <p><br /> <br /></p>
 </div>
 <div id="motivations-and-limitations" class="section level1">
 <h1>3. Motivations and limitations</h1>
 <div id="motivation" class="section level2">
 <h2>3.1 Motivation</h2>
-<p>Motivations for this package include, but are not limited to, the
-following examples:</p>
+<p>The motivations for developing the <strong>tablestylizer</strong>
+package include, but are not limited to, the following:</p>
 <ol style="list-style-type: decimal">
-<li><p>While the <a href="https://cran.r-project.org/web/packages/tableone/vignettes/introduction.html">tableone</a>
-package is an invaluable tool for generating nearly publication-ready
-tables of characteristics, some additional tidying up is often required
+<li><p><strong>Enhancing Tableone Functionality</strong>: While the <a href="https://cran.r-project.org/web/packages/tableone/vignettes/introduction.html">tableone</a>
+package is a valuable tool for generating nearly publication-ready
+tables of characteristics, additional tidying up is often required
 before submission to a journal.</p></li>
-<li><p>Additionally, many of the functions in tablestylizer are not
-limited to “Characteristics” tables but can be applied to any tables
-that require tasks such as rounding, offering a comprehensive set of
-tools for users working with tabular data in R.</p></li>
+<li><p><strong>Versatility Across Table Types</strong>: Many functions
+in the <strong>tablestylizer</strong> package are not limited to
+“Characteristics” tables but can be applied to any tables that require
+tasks such as rounding, offering a comprehensive set of tools for users
+working with tabular data in R.</p></li>
+<li><p><strong>Eliminating Manual Tweaking</strong>: The
+<strong>tablestylizer</strong> package aims to nullify the need for
+transferring data to external spreadsheet programs for manual tweaking,
+streamlining the data formatting process within R itself.</p></li>
 </ol>
 </div>
 <div id="limitations" class="section level2">
@@ -577,14 +584,15 @@ comparison test</td>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># Display the head of the dataset</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">head</span>(tablestylizer_df)</span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 7</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;   ID      Age Sex    Height Likes.coffee Favorite.color Group</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;int&gt; &lt;fct&gt;   &lt;dbl&gt; &lt;fct&gt;        &lt;fct&gt;          &lt;fct&gt;</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 1 01       75 Male       67 Yes          Green          A    </span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 2 02       82 Male       73 No           Blue           C    </span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 3 03       53 Male       63 No           Green          A    </span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 4 04       26 Male       72 No           Green          B    </span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 5 05       39 Male       70 No           Blue           B    </span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 6 06       60 Female     64 Yes          Green          B</span></span></code></pre></div>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;   ID    `Age (years)` Women `Height (inches)` `Likes coffee` `Favorite color`</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;         &lt;int&gt; &lt;fct&gt;             &lt;dbl&gt; &lt;fct&gt;          &lt;fct&gt;           </span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 1 01               41 Yes                  67 No             Blue            </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 2 02               18 Yes                  67 No             Blue            </span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 3 03               21 Yes                  67 No             Green           </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 4 04               73 Yes                  65 No             Red             </span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 5 05               43 No                   69 No             Red             </span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 6 06               70 Yes                  66 Yes            Green           </span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: Group &lt;fct&gt;</span></span></code></pre></div>
 <p><br /></p>
 <p>The data presented above can easily be converted into a tableone
 object by running a code that uses the function
@@ -592,32 +600,32 @@ object by running a code that uses the function
 package.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">## Get variables names</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">dput</span>(<span class="fu">names</span>(tablestylizer_df))</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; c(&quot;ID&quot;, &quot;Age&quot;, &quot;Sex&quot;, &quot;Height&quot;, &quot;Likes.coffee&quot;, &quot;Favorite.color&quot;, </span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; &quot;Group&quot;)</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; c(&quot;ID&quot;, &quot;Age (years)&quot;, &quot;Women&quot;, &quot;Height (inches)&quot;, &quot;Likes coffee&quot;, </span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; &quot;Favorite color&quot;, &quot;Group&quot;)</span></span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="do">## Vector of all variables that shall be summarized by CreateTableOne </span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Height&quot;</span>, <span class="st">&quot;Likes.coffee&quot;</span>, <span class="st">&quot;Favorite.color&quot;</span>, <span class="st">&quot;Group&quot;</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="do">## Vector of all variables that shall be summarized by CreateTableOne</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age (years)&quot;</span>, <span class="st">&quot;Women&quot;</span>, <span class="st">&quot;Height (inches)&quot;</span>, <span class="st">&quot;Likes coffee&quot;</span>, <span class="st">&quot;Favorite color&quot;</span>, <span class="st">&quot;Group&quot;</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="do">## Vector of categorical variables</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Likes.coffee&quot;</span>, <span class="st">&quot;Favorite.color&quot;</span>, <span class="st">&quot;Group&quot;</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Women&quot;</span>, <span class="st">&quot;Likes coffee&quot;</span>, <span class="st">&quot;Favorite color&quot;</span>, <span class="st">&quot;Group&quot;</span>)</span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a></span>
 <span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="do">## Create and display tableone object</span></span>
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="fu">CreateTableOne</span>(<span class="at">vars =</span> myVars, <span class="at">data =</span> tablestylizer_df, <span class="at">factorVars =</span> catVars)</span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt;                         </span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;                          Overall      </span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt;   n                         20        </span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;   Age (mean (SD))        51.15 (18.20)</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt;   Sex = Female (%)          11 (55.0) </span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt;   Height (mean (SD))     68.60 (4.28) </span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt;   Likes.coffee = Yes (%)     7 (35.0) </span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt;   Favorite.color (%)                  </span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt;      Red                     4 (20.0) </span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt;      Green                  10 (50.0) </span></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt;      Blue                    6 (30.0) </span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt;   Group (%)                           </span></span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt;      A                       6 (30.0) </span></span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt;      B                      12 (60.0) </span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt;      C                       2 (10.0)</span></span></code></pre></div>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;                               Overall      </span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt;   n                              20        </span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;   Age (years) (mean (SD))     51.05 (21.24)</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt;   Women = Yes (%)                11 (55.0) </span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt;   Height (inches) (mean (SD)) 68.30 (2.23) </span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt;   Likes coffee = Yes (%)          8 (40.0) </span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt;   Favorite color (%)                       </span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt;      Red                          6 (30.0) </span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt;      Green                        7 (35.0) </span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt;      Blue                         7 (35.0) </span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt;   Group (%)                                </span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt;      A                            5 (25.0) </span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt;      B                            8 (40.0) </span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt;      C                            7 (35.0)</span></span></code></pre></div>
 <p><br /></p>
 <p>For the sake of further practice sessions, the above tableone object
 is available as an example dataset object called
@@ -626,7 +634,7 @@ package.</p>
 <p><br /><br /></p>
 </div>
 <div id="tidying-up-tableone-objects-stylize_tableone" class="section level1">
-<h1>5. Tidying up tableone objects: stylize_tableone()</h1>
+<h1>5. Tidying up tableone objects: <code>stylize_tableone()</code></h1>
 <p>The <code>stylize_tableone()</code> function in the
 <strong>tablestylizer</strong> package is designed to enhance the
 presentation of tableone objects, making them more suitable for
@@ -652,6 +660,11 @@ aligns with this convention, expressing p-values with 2 digits whenever
 possible, providing a more standardized and visually appealing
 format.</p></li>
 </ul>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Changing “Overall” to “Value”</strong>: For one group data,
+the text “Overall” is changed to “Value” to enhance clarity and
+consistency in the table presentation.</li>
+</ol>
 <div id="one-column-of-data" class="section level2">
 <h2>5.1 One column of data</h2>
 <p>Let’s look at the example dataset <code>tableone_1g</code> of the
@@ -663,262 +676,513 @@ function <code>stylize_tableone()</code>.</p>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># Display &quot;tableone_1g&quot; object</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>tableone_1g</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;                         </span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;                          Overall      </span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;   n                         20        </span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;   Age (mean (SD))        60.00 (22.19)</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;   Sex = Female (%)          10 (50.0) </span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;   Height (mean (SD))     67.80 (3.32) </span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;   Likes.coffee = Yes (%)    11 (55.0) </span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;   Favorite.color (%)                  </span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;      Red                     4 (20.0) </span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;      Green                   9 (45.0) </span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;      Blue                    7 (35.0) </span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;   Group (%)                           </span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;      A                       8 (40.0) </span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;      B                       8 (40.0) </span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;      C                       4 (20.0)</span></span></code></pre></div>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;                               Overall      </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;   n                              20        </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;   Age (years) (mean (SD))     51.05 (21.24)</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;   Women = Yes (%)                11 (55.0) </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;   Height (inches) (mean (SD)) 68.30 (2.23) </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;   Likes coffee = Yes (%)          8 (40.0) </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;   Favorite color (%)                       </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;      Red                          6 (30.0) </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;      Green                        7 (35.0) </span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;      Blue                         7 (35.0) </span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;   Group (%)                                </span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;      A                            5 (25.0) </span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;      B                            8 (40.0) </span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;      C                            7 (35.0)</span></span></code></pre></div>
 <p><br /></p>
 <p>This tableone object can now be processed by
 <code>stylize_tableone()</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Process the tableone object, pipe it to print() command to align left</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">stylize_tableone</span>(tableone_1g) <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">right =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;    Variable       Overall    </span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 1  n              20         </span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 2  Age            60.0 ± 22.2</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 3  Sex            10 (50.0%) </span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 4  Height         67.8 ± 3.3 </span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 5  Likes.coffee   11 (55.0%) </span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 6  Favorite.color            </span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 7     Red         4 (20.0%)  </span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 8     Green       9 (45.0%)  </span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 9     Blue        7 (35.0%)  </span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 10 Group                     </span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 11    A           8 (40.0%)  </span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 12    B           8 (40.0%)  </span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 13    C           4 (20.0%)</span></span></code></pre></div>
-<p><br /></p>
-<p>Pay always attention that the levels of the binary categorical
-variables come out as is desired. Here, the variable <code>Sex</code>
-needs adjustment.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># Process the tableone object, store it to &quot;table_1&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> <span class="fu">stylize_tableone</span>(tableone_1g)</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># Recode the text for the variable &quot;sex&quot;</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>table_1[<span class="dv">3</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Women&quot;</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># Print the ready &quot;table_1&quot; (align left)</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="fu">print</span>(table_1, <span class="at">right =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;    Variable       Overall    </span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; 1  n              20         </span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 2  Age            60.0 ± 22.2</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; 3  Women          10 (50.0%) </span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; 4  Height         67.8 ± 3.3 </span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; 5  Likes.coffee   11 (55.0%) </span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; 6  Favorite.color            </span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; 7     Red         4 (20.0%)  </span></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; 8     Green       9 (45.0%)  </span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; 9     Blue        7 (35.0%)  </span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt; 10 Group                     </span></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt; 11    A           8 (40.0%)  </span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt; 12    B           8 (40.0%)  </span></span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; 13    C           4 (20.0%)</span></span></code></pre></div>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;    Variable        Value      </span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 1  n               20         </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 2  Age (years)     51.0 ± 21.2</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 3  Women           11 (55.0%) </span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 4  Height (inches) 68.3 ± 2.2 </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 5  Likes coffee    8 (40.0%)  </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 6  Favorite color             </span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 7     Red          6 (30.0%)  </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 8     Green        7 (35.0%)  </span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 9     Blue         7 (35.0%)  </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 10 Group                      </span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 11    A            5 (25.0%)  </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 12    B            8 (40.0%)  </span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 13    C            7 (35.0%)</span></span></code></pre></div>
 <p><br /></p>
 </div>
 <div id="recoding-of-binary-variables" class="section level2">
 <h2>5.1.1 Recoding of binary variables</h2>
 <p>If the levels of the binary categorical factor variable need to be
-reversed, that can be accomplished easily. Base R can be used for this,
-but the easiest solution is to use the <strong>forcats</strong> package
-for this.</p>
-<p>As an example, let’s change <code>Likes.coffee</code> to
-<code>Dislikes.coffee</code>. There are a zillion different ways to
-accomplish this, but an easy solution is to change the order of the
-factor variable.</p>
-<p>Let’s start by creating a new factor variable
-<code>Likes.coffee_2</code> that has the order of the factor levels
+reversed, it can be accomplished easily. While Base R can be used for
+this purpose, the simplest solution is to leverage the
+<strong>forcats</strong> package.</p>
+<p>As an example, let’s change <code>Likes coffee</code> to
+<code>Dislikes coffee</code>. There are numerous methods to achieve
+this, but one straightforward solution is to reverse the order of the
+factor levels.</p>
+<p>Let’s begin by creating a new factor variable,
+<code>Likes coffee 2</code>, with the order of the factor levels
 reversed.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Load forcats</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Load the example dataset</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tablestylizer_df&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tablestylizer&quot;</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># Create a new factor variable with reversed levels</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>tablestylizer_df<span class="sc">$</span>Likes.coffee_2 <span class="ot">&lt;-</span> <span class="fu">fct_rev</span>(tablestylizer_df<span class="sc">$</span>Likes.coffee)</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># Display head</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="fu">head</span>(tablestylizer_df, <span class="at">n=</span><span class="dv">5</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 8</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt;   ID      Age Sex   Height Likes.coffee Favorite.color Group Likes.coffee_2</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;int&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;        &lt;fct&gt;          &lt;fct&gt; &lt;fct&gt;         </span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; 1 01       75 Male      67 Yes          Green          A     Yes           </span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; 2 02       82 Male      73 No           Blue           C     No            </span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; 3 03       53 Male      63 No           Green          A     No            </span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; 4 04       26 Male      72 No           Green          B     No            </span></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; 5 05       39 Male      70 No           Blue           B     No</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Load forcats</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># Load the example dataset</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tablestylizer_df&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tablestylizer&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># Create a new factor variable with reversed levels</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>tablestylizer_df<span class="sc">$</span><span class="st">`</span><span class="at">Likes coffee 2</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">fct_rev</span>(tablestylizer_df<span class="sc">$</span><span class="st">`</span><span class="at">Likes coffee</span><span class="st">`</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># Display head</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="fu">head</span>(tablestylizer_df[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">8</span>)], <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 3</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt;   ID    `Likes coffee` `Likes coffee 2`</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;fct&gt;          &lt;fct&gt;           </span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; 1 01    No             No              </span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; 2 02    No             No              </span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; 3 03    No             No              </span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; 4 04    No             No              </span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; 5 05    No             No</span></span></code></pre></div>
 <p><br /></p>
-<p>When you look at the data frame above, nothing seems to have changed.
-However, when you create a new tableone object of those data, you can
-see that the order of the levels have been changed.</p>
+<p>When you examine the data frame above, it might appear that nothing
+has changed. However, upon creating a new tableone object with that
+data, you’ll notice that the order of the levels has been altered.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="do">## Vector of all variables that shall be summarized by CreateTableOne</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Likes coffee&quot;</span>, <span class="st">&quot;Likes coffee 2&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="do">## Vector of categorical variables</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Likes coffee&quot;</span>, <span class="st">&quot;Likes coffee 2&quot;</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="do">## Create and display tableone object</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">CreateTableOne</span>(<span class="at">vars =</span> myVars, <span class="at">data =</span> tablestylizer_df, <span class="at">factorVars =</span> catVars)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;                          </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt;                           Overall   </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt;   n                       20        </span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt;   Likes coffee = Yes (%)   8 (40.0) </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;   Likes coffee 2 = No (%) 12 (60.0)</span></span></code></pre></div>
+<p><br /></p>
+<p>Now, we know how to effortlessly reproduce the same formatted table
+as above, but with the <code>Likes coffee</code> variable reversed.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="do">## Vector of all variables that shall be summarized by CreateTableOne</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Likes.coffee&quot;</span>, <span class="st">&quot;Likes.coffee_2&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># Load the example dataset</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tablestylizer_df&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tablestylizer&quot;</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="do">## Vector of categorical variables</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Likes.coffee&quot;</span>, <span class="st">&quot;Likes.coffee_2&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># Create a new factor variable with reversed levels</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>tablestylizer_df<span class="sc">$</span><span class="st">`</span><span class="at">Likes coffee 2</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">fct_rev</span>(tablestylizer_df<span class="sc">$</span><span class="st">`</span><span class="at">Likes coffee</span><span class="st">`</span>)</span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="do">## Create and display tableone object</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">CreateTableOne</span>(<span class="at">vars =</span> myVars, <span class="at">data =</span> tablestylizer_df, <span class="at">factorVars =</span> catVars)</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;                          </span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;                           Overall   </span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt;   n                       20        </span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt;   Likes.coffee = Yes (%)   7 (35.0) </span></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt;   Likes.coffee_2 = No (%) 13 (65.0)</span></span></code></pre></div>
-<p><br /></p>
-<p>Now, we know how to easily reproduce the same ready table as above
-but with a reversed <code>Likes.coffee</code> variable.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># Load the example dataset</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tablestylizer_df&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tablestylizer&quot;</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># Create a new factor variable with reversed levels</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>tablestylizer_df<span class="sc">$</span>Likes.coffee_2 <span class="ot">&lt;-</span> <span class="fu">fct_rev</span>(tablestylizer_df<span class="sc">$</span>Likes.coffee)</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="do">## Vector of all variables that shall be summarized by CreateTableOne </span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Height&quot;</span>, <span class="st">&quot;Likes.coffee_2&quot;</span>, <span class="st">&quot;Favorite.color&quot;</span>, <span class="st">&quot;Group&quot;</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="do">## Vector of categorical variables</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Likes.coffee_2&quot;</span>, <span class="st">&quot;Favorite.color&quot;</span>, <span class="st">&quot;Group&quot;</span>)</span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="do">## Create and store a tableone object</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>my_df <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(<span class="at">vars =</span> myVars, <span class="at">data =</span> tablestylizer_df, <span class="at">factorVars =</span> catVars)</span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co"># Display the tableone object</span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>my_df</span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt;                          </span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt;                           Overall      </span></span>
-<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co">#&gt;   n                          20        </span></span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co">#&gt;   Age (mean (SD))         51.15 (18.20)</span></span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt;   Sex = Female (%)           11 (55.0) </span></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt;   Height (mean (SD))      68.60 (4.28) </span></span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt;   Likes.coffee_2 = No (%)    13 (65.0) </span></span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt;   Favorite.color (%)                   </span></span>
-<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt;      Red                      4 (20.0) </span></span>
-<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt;      Green                   10 (50.0) </span></span>
-<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#&gt;      Blue                     6 (30.0) </span></span>
-<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt;   Group (%)                            </span></span>
-<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt;      A                        6 (30.0) </span></span>
-<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co">#&gt;      B                       12 (60.0) </span></span>
-<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="co">#&gt;      C                        2 (10.0)</span></span>
-<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a></span>
-<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a><span class="co"># Process the tableone object</span></span>
-<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a>my_df <span class="ot">&lt;-</span> <span class="fu">stylize_tableone</span>(my_df)</span>
-<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a></span>
-<span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a><span class="co"># Rename binary variables as desired</span></span>
-<span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a>my_df[<span class="dv">3</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Women&quot;</span></span>
-<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a>my_df[<span class="dv">5</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Dislikes coffee&quot;</span></span>
-<span id="cb9-41"><a href="#cb9-41" tabindex="-1"></a></span>
-<span id="cb9-42"><a href="#cb9-42" tabindex="-1"></a><span class="co"># Display the processed tableone object, pipe it to print() command to align left</span></span>
-<span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a>my_df <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">right =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb9-44"><a href="#cb9-44" tabindex="-1"></a><span class="co">#&gt;    Variable        Overall    </span></span>
-<span id="cb9-45"><a href="#cb9-45" tabindex="-1"></a><span class="co">#&gt; 1  n               20         </span></span>
-<span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a><span class="co">#&gt; 2  Age             51.1 ± 18.2</span></span>
-<span id="cb9-47"><a href="#cb9-47" tabindex="-1"></a><span class="co">#&gt; 3  Women           11 (55.0%) </span></span>
-<span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a><span class="co">#&gt; 4  Height          68.6 ± 4.3 </span></span>
-<span id="cb9-49"><a href="#cb9-49" tabindex="-1"></a><span class="co">#&gt; 5  Dislikes coffee 13 (65.0%) </span></span>
-<span id="cb9-50"><a href="#cb9-50" tabindex="-1"></a><span class="co">#&gt; 6  Favorite.color             </span></span>
-<span id="cb9-51"><a href="#cb9-51" tabindex="-1"></a><span class="co">#&gt; 7     Red          4 (20.0%)  </span></span>
-<span id="cb9-52"><a href="#cb9-52" tabindex="-1"></a><span class="co">#&gt; 8     Green        10 (50.0%) </span></span>
-<span id="cb9-53"><a href="#cb9-53" tabindex="-1"></a><span class="co">#&gt; 9     Blue         6 (30.0%)  </span></span>
-<span id="cb9-54"><a href="#cb9-54" tabindex="-1"></a><span class="co">#&gt; 10 Group                      </span></span>
-<span id="cb9-55"><a href="#cb9-55" tabindex="-1"></a><span class="co">#&gt; 11    A            6 (30.0%)  </span></span>
-<span id="cb9-56"><a href="#cb9-56" tabindex="-1"></a><span class="co">#&gt; 12    B            12 (60.0%) </span></span>
-<span id="cb9-57"><a href="#cb9-57" tabindex="-1"></a><span class="co">#&gt; 13    C            2 (10.0%)</span></span></code></pre></div>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="do">## Vector of all variables that shall be summarized by CreateTableOne</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age (years)&quot;</span>, <span class="st">&quot;Women&quot;</span>, <span class="st">&quot;Height (inches)&quot;</span>, <span class="st">&quot;Likes coffee 2&quot;</span>, <span class="st">&quot;Favorite color&quot;</span>, <span class="st">&quot;Group&quot;</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="do">## Vector of categorical variables</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Women&quot;</span>, <span class="st">&quot;Likes coffee 2&quot;</span>, <span class="st">&quot;Favorite color&quot;</span>, <span class="st">&quot;Group&quot;</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="do">## Create and store a tableone object</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>my_df <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(<span class="at">vars =</span> myVars, <span class="at">data =</span> tablestylizer_df, <span class="at">factorVars =</span> catVars)</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co"># Display the tableone object</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>my_df</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt;                               Overall      </span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt;   n                              20        </span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt;   Age (years) (mean (SD))     51.05 (21.24)</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt;   Women = Yes (%)                11 (55.0) </span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt;   Height (inches) (mean (SD)) 68.30 (2.23) </span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt;   Likes coffee 2 = No (%)        12 (60.0) </span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt;   Favorite color (%)                       </span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt;      Red                          6 (30.0) </span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt;      Green                        7 (35.0) </span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt;      Blue                         7 (35.0) </span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt;   Group (%)                                </span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt;      A                            5 (25.0) </span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt;      B                            8 (40.0) </span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co">#&gt;      C                            7 (35.0)</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co"># Process the tableone object</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a>my_df <span class="ot">&lt;-</span> <span class="fu">stylize_tableone</span>(my_df)</span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co"># Rename binary variables as desired</span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a>my_df[<span class="dv">5</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Dislikes coffee&quot;</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co"># Display the processed tableone object, pipe it to print() command to align left</span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a>my_df <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#&gt;    Variable        Value      </span></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co">#&gt; 1  n               20         </span></span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a><span class="co">#&gt; 2  Age (years)     51.0 ± 21.2</span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co">#&gt; 3  Women           11 (55.0%) </span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt; 4  Height (inches) 68.3 ± 2.2 </span></span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a><span class="co">#&gt; 5  Dislikes coffee 12 (60.0%) </span></span>
+<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a><span class="co">#&gt; 6  Favorite color             </span></span>
+<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a><span class="co">#&gt; 7     Red          6 (30.0%)  </span></span>
+<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a><span class="co">#&gt; 8     Green        7 (35.0%)  </span></span>
+<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a><span class="co">#&gt; 9     Blue         7 (35.0%)  </span></span>
+<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a><span class="co">#&gt; 10 Group                      </span></span>
+<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a><span class="co">#&gt; 11    A            5 (25.0%)  </span></span>
+<span id="cb8-55"><a href="#cb8-55" tabindex="-1"></a><span class="co">#&gt; 12    B            8 (40.0%)  </span></span>
+<span id="cb8-56"><a href="#cb8-56" tabindex="-1"></a><span class="co">#&gt; 13    C            7 (35.0%)</span></span></code></pre></div>
 <p><br /></p>
 </div>
 <div id="several-columns-of-data" class="section level2">
 <h2>5.2 Several columns of data</h2>
-<p>Let’s examine the example dataset <code>tableone_3g</code> of the
-<strong>tablestylizer</strong> package. This dataset contains subgroup
-data, where information is presented across multiple columns.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Load the example dataset</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tableone_3g&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tablestylizer&quot;</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># Display &quot;tableone_3g&quot; object</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>tableone_3g</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;                         Stratified by Group</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt;                          A             B             C             </span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt;   n                          8             8             4         </span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt;   Age (mean (SD))        64.62 (10.23) 59.75 (28.61) 51.25 (28.36) </span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt;   Sex = Female (%)           3 (37.5)      4 (50.0)      3 ( 75.0) </span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt;   Height (mean (SD))     68.25 (3.41)  67.38 (3.66)  67.75 (3.20)  </span></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt;   Likes.coffee = Yes (%)     6 (75.0)      1 (12.5)      4 (100.0) </span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt;   Favorite.color (%)                                               </span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt;      Red                     2 (25.0)      1 (12.5)      1 ( 25.0) </span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt;      Green                   3 (37.5)      5 (62.5)      1 ( 25.0) </span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt;      Blue                    3 (37.5)      2 (25.0)      2 ( 50.0)</span></span></code></pre></div>
+<p>Let’s take a closer look at the example dataset
+<code>tableone_3g</code> provided by the <strong>tablestylizer</strong>
+package. This dataset comprises subgroup data, presenting information
+across multiple columns.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Load the example dataset</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tableone_3g&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tablestylizer&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># Display &quot;tableone_3g&quot; object</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>tableone_3g</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt;                              Stratified by Group</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;                               A             B             C            </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt;   n                               5             8             7        </span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt;   Age (years) (mean (SD))     53.20 (23.91) 52.00 (23.64) 48.43 (19.54)</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;   Women = Yes (%)                 1 (20.0)      5 (62.5)      5 (71.4) </span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;   Height (inches) (mean (SD)) 69.60 (1.67)  68.50 (2.00)  67.14 (2.48) </span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt;   Likes coffee = Yes (%)          2 (40.0)      3 (37.5)      3 (42.9) </span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;   Favorite color (%)                                                   </span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt;      Red                          1 (20.0)      5 (62.5)      0 ( 0.0) </span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt;      Green                        2 (40.0)      2 (25.0)      3 (42.9) </span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt;      Blue                         2 (40.0)      1 (12.5)      4 (57.1)</span></span></code></pre></div>
 <p><br /></p>
-<p>The <code>stylize_tableone()</code> function effectively manages this
+<p>The <code>stylize_tableone()</code> function adeptly handles this
 type of tableone object.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Process the tableone object, pipe it to print() command to align left</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">stylize_tableone</span>(tableone_3g) <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">right =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt;   Variable       A           B           C          </span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt; 1 n              8           8           4          </span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; 2 Age            64.6 ± 10.2 59.8 ± 28.6 51.2 ± 28.4</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt; 3 Sex            3 (37.5%)   4 (50.0%)   3 (75.0%)  </span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt; 4 Height         68.2 ± 3.4  67.4 ± 3.7  67.8 ± 3.2 </span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; 5 Likes.coffee   6 (75.0%)   1 (12.5%)   4 (100.0%) </span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; 6 Favorite.color                                    </span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; 7    Red         2 (25.0%)   1 (12.5%)   1 (25.0%)  </span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; 8    Green       3 (37.5%)   5 (62.5%)   1 (25.0%)  </span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; 9    Blue        3 (37.5%)   2 (25.0%)   2 (50.0%)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Process the tableone object, pipe it to print() command to align left</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">stylize_tableone</span>(tableone_3g) <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt;   Variable        A           B           C          </span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; 1 n               5           8           7          </span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; 2 Age (years)     53.2 ± 23.9 52.0 ± 23.6 48.4 ± 19.5</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; 3 Women           1 (20.0%)   5 (62.5%)   5 (71.4%)  </span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; 4 Height (inches) 69.6 ± 1.7  68.5 ± 2.0  67.1 ± 2.5 </span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; 5 Likes coffee    2 (40.0%)   3 (37.5%)   3 (42.9%)  </span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; 6 Favorite color                                     </span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; 7    Red          1 (20.0%)   5 (62.5%)   0 (0.0%)   </span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; 8    Green        2 (40.0%)   2 (25.0%)   3 (42.9%)  </span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; 9    Blue         2 (40.0%)   1 (12.5%)   4 (57.1%)</span></span></code></pre></div>
 <p><br /></p>
 </div>
 <div id="between-group-comparison" class="section level2">
 <h2>5.2 Between-group comparison</h2>
-<p>Now, let’s explore the example dataset <code>tableone_3g_p</code>
-from the <strong>tablestylizer</strong> package. Similar to
+<p>Now, let’s examine the example dataset <code>tableone_3g_p</code>
+provided by the <strong>tablestylizer</strong> package. Similar to
 <code>tableone_3g</code>, this dataset contains subgroup data. However,
 <code>tableone_3g_p</code> includes additional between-group comparisons
 with p-values. The <code>stylize_tableone()</code> function seamlessly
-handles this type of tableone object. It’s worth noting that
+handles this type of tableone object. It’s noteworthy that
 <code>stylize_tableone()</code> processes the p-values using a dedicated
-function called <code>stylize_p()</code>, which is also part of the
-<strong>tablestylizer</strong> package.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Load the example dataset</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tableone_3g_p&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tablestylizer&quot;</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># Display &quot;tableone_3g_&quot; object</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>tableone_3g_p</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt;                         Stratified by Group</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt;                          A             B             C              p      test</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt;   n                          8             8             4                     </span></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt;   Age (mean (SD))        64.62 (10.23) 59.75 (28.61) 51.25 (28.36)   0.640     </span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt;   Sex = Female (%)           3 (37.5)      4 (50.0)      3 ( 75.0)   0.472     </span></span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt;   Height (mean (SD))     68.25 (3.41)  67.38 (3.66)  67.75 (3.20)    0.882     </span></span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#&gt;   Likes.coffee = Yes (%)     6 (75.0)      1 (12.5)      4 (100.0)   0.006     </span></span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt;   Favorite.color (%)                                                 0.759     </span></span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt;      Red                     2 (25.0)      1 (12.5)      1 ( 25.0)             </span></span>
-<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co">#&gt;      Green                   3 (37.5)      5 (62.5)      1 ( 25.0)             </span></span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#&gt;      Blue                    3 (37.5)      2 (25.0)      2 ( 50.0)</span></span></code></pre></div>
+function called <code>stylize_p()</code>, which is also included in the
+tablestylizer package.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Load the example dataset</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tableone_3g_p&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tablestylizer&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># Display &quot;tableone_3g_&quot; object</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>tableone_3g_p</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt;                              Stratified by Group</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt;                               A             B             C             p     </span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt;   n                               5             8             7               </span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt;   Age (years) (mean (SD))     53.20 (23.91) 52.00 (23.64) 48.43 (19.54)  0.925</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt;   Women = Yes (%)                 1 (20.0)      5 (62.5)      5 (71.4)   0.181</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt;   Height (inches) (mean (SD)) 69.60 (1.67)  68.50 (2.00)  67.14 (2.48)   0.162</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt;   Likes coffee = Yes (%)          2 (40.0)      3 (37.5)      3 (42.9)   0.978</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt;   Favorite color (%)                                                     0.106</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt;      Red                          1 (20.0)      5 (62.5)      0 ( 0.0)        </span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt;      Green                        2 (40.0)      2 (25.0)      3 (42.9)        </span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#&gt;      Blue                         2 (40.0)      1 (12.5)      4 (57.1)        </span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#&gt;                              Stratified by Group</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#&gt;                               test</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#&gt;   n                               </span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co">#&gt;   Age (years) (mean (SD))         </span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co">#&gt;   Women = Yes (%)                 </span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="co">#&gt;   Height (inches) (mean (SD))     </span></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a><span class="co">#&gt;   Likes coffee = Yes (%)          </span></span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a><span class="co">#&gt;   Favorite color (%)              </span></span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co">#&gt;      Red                          </span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="co">#&gt;      Green                        </span></span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="co">#&gt;      Blue</span></span></code></pre></div>
 <p><br /></p>
-<p>This tableone object can now be processed by
+<p>The tableone object is now ready to undergo processing by
 <code>stylize_tableone()</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Process the tableone object, pipe it to print() command to align left</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">stylize_tableone</span>(tableone_3g_p) <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">right =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt;   Variable       A           B           C           p    test</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; 1 n              8           8           4                    </span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; 2 Age            64.6 ± 10.2 59.8 ± 28.6 51.2 ± 28.4 0.64     </span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; 3 Sex            3 (37.5%)   4 (50.0%)   3 (75.0%)   0.47     </span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; 4 Height         68.2 ± 3.4  67.4 ± 3.7  67.8 ± 3.2  0.88     </span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; 5 Likes.coffee   6 (75.0%)   1 (12.5%)   4 (100.0%)  0.01     </span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; 6 Favorite.color                                     0.76     </span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; 7    Red         2 (25.0%)   1 (12.5%)   1 (25.0%)            </span></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt; 8    Green       3 (37.5%)   5 (62.5%)   1 (25.0%)            </span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt; 9    Blue        3 (37.5%)   2 (25.0%)   2 (50.0%)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Process the tableone object, pipe it to print() command to align left</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">stylize_tableone</span>(tableone_3g_p) <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt;   Variable        A           B           C           p    test</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; 1 n               5           8           7                    </span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; 2 Age (years)     53.2 ± 23.9 52.0 ± 23.6 48.4 ± 19.5 0.93     </span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; 3 Women           1 (20.0%)   5 (62.5%)   5 (71.4%)   0.18     </span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; 4 Height (inches) 69.6 ± 1.7  68.5 ± 2.0  67.1 ± 2.5  0.16     </span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; 5 Likes coffee    2 (40.0%)   3 (37.5%)   3 (42.9%)   0.98     </span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 6 Favorite color                                      0.11     </span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; 7    Red          1 (20.0%)   5 (62.5%)   0 (0.0%)             </span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt; 8    Green        2 (40.0%)   2 (25.0%)   3 (42.9%)            </span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#&gt; 9    Blue         2 (40.0%)   1 (12.5%)   4 (57.1%)</span></span></code></pre></div>
+<p><br /><br /></p>
 </div>
+</div>
+<div id="demonstration-of-the-stylize1-function" class="section level1">
+<h1>6. Demonstration of the <code>stylize1()</code> function</h1>
+<p>In this chapter, we showcase the usage of the <code>stylize1</code>
+function with randomly generated data.</p>
+<p>Let’s examine the following random data.</p>
+<table>
+<caption>random_df</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="right">Group A</th>
+<th align="right">Group B</th>
+<th align="right">Group C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Biomarker 1</td>
+<td align="right">-0.6000</td>
+<td align="right">-2.000000e-01</td>
+<td align="right">1.600</td>
+</tr>
+<tr class="even">
+<td align="left">Biomarker 2</td>
+<td align="right">0.0001</td>
+<td align="right">3.000000e-04</td>
+<td align="right">0.003</td>
+</tr>
+<tr class="odd">
+<td align="left">Biomarker 3</td>
+<td align="right">355141.3000</td>
+<td align="right">1.452668e+05</td>
+<td align="right">-794150.600</td>
+</tr>
+<tr class="even">
+<td align="left">Biomarker 4</td>
+<td align="right">1300000.0000</td>
+<td align="right">-1.700000e+08</td>
+<td align="right">170000000.000</td>
+</tr>
+</tbody>
+</table>
+<p><br /> <br /></p>
+<p>The preceding data could be presented in a more polished,
+publication-ready format. We will now utilize the <code>stylize1</code>
+function to enhance the presentation of each column’s data and display
+the result below.</p>
+<p><br /></p>
+<blockquote style="margin-left: 40px; border-left: 4px solid #ccc; padding-left: 10px;">
+Please note that the mutate_at() function from the dplyr package is the
+most efficient method for applying these transformations across an
+entire dataset.
+</blockquote>
+<p><br /> <br /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>stylized_data <span class="ot">&lt;-</span> random_df <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="st">&quot;Group A&quot;</span>, <span class="st">&quot;Group B&quot;</span>, <span class="st">&quot;Group C&quot;</span>), stylize1)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co"># Output the stylized dataframe using kable</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">kable</span>(stylized_data, <span class="at">caption =</span> <span class="st">&quot;Stylized Random Data&quot;</span>)</span></code></pre></div>
+<table>
+<caption>Stylized Random Data</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Group A</th>
+<th align="left">Group B</th>
+<th align="left">Group C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Biomarker 1</td>
+<td align="left">-0.6</td>
+<td align="left">-0.2</td>
+<td align="left">1.6</td>
+</tr>
+<tr class="even">
+<td align="left">Biomarker 2</td>
+<td align="left">0.0001</td>
+<td align="left">0.0003</td>
+<td align="left">0.003</td>
+</tr>
+<tr class="odd">
+<td align="left">Biomarker 3</td>
+<td align="left">355141.3</td>
+<td align="left">145266.8</td>
+<td align="left">-794150.6</td>
+</tr>
+<tr class="even">
+<td align="left">Biomarker 4</td>
+<td align="left">1.3x10+6</td>
+<td align="left">-1.7x10+8</td>
+<td align="left">1.7x10+8</td>
+</tr>
+</tbody>
+</table>
+<p><br /><br /></p>
+</div>
+<div id="demonstration-of-the-stylize2-function" class="section level1">
+<h1>7. Demonstration of the <code>stylize2()</code> function</h1>
+<p><code>stylize2()</code> functions similarly to
+<code>stylize1()</code>, but it aims to round values to 2 decimals
+instead.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>stylized_data <span class="ot">&lt;-</span> random_df <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="st">&quot;Group A&quot;</span>, <span class="st">&quot;Group B&quot;</span>, <span class="st">&quot;Group C&quot;</span>), stylize2)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co"># Output the stylized dataframe using kable</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="fu">kable</span>(stylized_data, <span class="at">caption =</span> <span class="st">&quot;Stylized Random Data&quot;</span>)</span></code></pre></div>
+<table>
+<caption>Stylized Random Data</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Group A</th>
+<th align="left">Group B</th>
+<th align="left">Group C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Biomarker 1</td>
+<td align="left">-0.60</td>
+<td align="left">-0.20</td>
+<td align="left">1.60</td>
+</tr>
+<tr class="even">
+<td align="left">Biomarker 2</td>
+<td align="left">0.0001</td>
+<td align="left">0.0003</td>
+<td align="left">0.003</td>
+</tr>
+<tr class="odd">
+<td align="left">Biomarker 3</td>
+<td align="left">3.55x10+5</td>
+<td align="left">1.45x10+5</td>
+<td align="left">-7.94x10+5</td>
+</tr>
+<tr class="even">
+<td align="left">Biomarker 4</td>
+<td align="left">1.30x10+6</td>
+<td align="left">-1.70x10+8</td>
+<td align="left">1.70x10+8</td>
+</tr>
+</tbody>
+</table>
+<p><br /><br /></p>
+</div>
+<div id="demonstration-of-the-stylize_p-function" class="section level1">
+<h1>8. Demonstration of the <code>stylize_p()</code> function</h1>
+<p>The <code>stylize_p()</code> function is designed to round and format
+numeric values, particularly for improving readability in statistical
+outputs. It follows specific rules to achieve this:</p>
+<ul>
+<li>Values are rounded to 2 decimal places whenever feasible.</li>
+<li>The function specifically avoids outputting “0.05”, as this value
+may not hold practical meaning for the reader when the significance
+level (alpha) is set at 0.05.</li>
+<li>If the rounded result is equal to “0.050”, the original value is
+retained without any rounding.</li>
+<li>If the original value (prior to rounding) is equal to 0.050, the
+original value is retained without any rounding.</li>
+<li>Values less than 0.001 are expressed as “&lt;0.001”.</li>
+</ul>
+<p><br /></p>
+<p>First, let’s examine the regression results from an imaginary
+analysis.</p>
+<p><br /></p>
+<table>
+<caption>random_regression_results</caption>
+<thead>
+<tr class="header">
+<th align="left">Outcome</th>
+<th align="left">Regressor</th>
+<th align="right">Beta</th>
+<th align="right">SE</th>
+<th align="right">P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Variable 1</td>
+<td align="left">Variable 2</td>
+<td align="right">0.1234567</td>
+<td align="right">0.01230</td>
+<td align="right">0.001234</td>
+</tr>
+<tr class="even">
+<td align="left">Variable 3</td>
+<td align="left">Variable 4</td>
+<td align="right">0.9876543</td>
+<td align="right">0.04560</td>
+<td align="right">0.056789</td>
+</tr>
+<tr class="odd">
+<td align="left">Variable 5</td>
+<td align="left">Variable 6</td>
+<td align="right">0.5432100</td>
+<td align="right">0.00789</td>
+<td align="right">0.000987</td>
+</tr>
+<tr class="even">
+<td align="left">Variable 9</td>
+<td align="left">Variable 10</td>
+<td align="right">0.3456000</td>
+<td align="right">0.05430</td>
+<td align="right">0.049900</td>
+</tr>
+</tbody>
+</table>
+<p><br /></p>
+<p>We can now apply <code>stylize2()</code> for the beta and SE columns
+and <code>stylize_p()</code> for the P-values.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>stylized_data <span class="ot">&lt;-</span> random_regression_results <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="st">&quot;Beta&quot;</span>, <span class="st">&quot;SE&quot;</span>), stylize2)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>stylized_data <span class="ot">&lt;-</span> stylized_data <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="st">&quot;P-value&quot;</span>), stylize_p)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co"># Output the stylized dataframe using kable</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="fu">kable</span>(stylized_data, <span class="at">caption =</span> <span class="st">&quot;Stylized Regression Results&quot;</span>)</span></code></pre></div>
+<table>
+<caption>Stylized Regression Results</caption>
+<thead>
+<tr class="header">
+<th align="left">Outcome</th>
+<th align="left">Regressor</th>
+<th align="left">Beta</th>
+<th align="left">SE</th>
+<th align="left">P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Variable 1</td>
+<td align="left">Variable 2</td>
+<td align="left">0.12</td>
+<td align="left">0.01</td>
+<td align="left">0.001</td>
+</tr>
+<tr class="even">
+<td align="left">Variable 3</td>
+<td align="left">Variable 4</td>
+<td align="left">0.99</td>
+<td align="left">0.05</td>
+<td align="left">0.06</td>
+</tr>
+<tr class="odd">
+<td align="left">Variable 5</td>
+<td align="left">Variable 6</td>
+<td align="left">0.54</td>
+<td align="left">0.01</td>
+<td align="left">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td align="left">Variable 9</td>
+<td align="left">Variable 10</td>
+<td align="left">0.35</td>
+<td align="left">0.05</td>
+<td align="left">0.0499</td>
+</tr>
+</tbody>
+</table>
+<p><br /> <br /> <br /> <br /> <br /> <br /></p>
 </div>
 
 
