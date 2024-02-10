@@ -1,9 +1,9 @@
 #' Stylize Numeric Values with Custom Rules (Aiming for 1 Decimal)
 #'
-#' This function stylizes numeric values according to a set of custom rules.
-#' It rounds values to 1 decimal place unless they round to a smaller digit.
-#'
+#' Stylizes numeric values according to a set of custom rules.
+#' Rounds values to 1 decimal place unless they round to a smaller digit.
 #' Optional parameter to specify a threshold for displaying values as "<threshold".
+#' Very large or small values are expressed as powers of 10.
 #'
 #' @param x Numeric value to be stylized.
 #'
