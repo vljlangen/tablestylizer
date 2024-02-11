@@ -67,40 +67,82 @@
 <div class="section level2">
 <h2 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
 </h2>
-<p><code><a href="reference/stylize_tableone.html">stylize_tableone()</a></code> function: - Processes a <code>tableone</code> object to a lean, more publication-ready format. - Converts rownames to column names, transfers percentage symbols, and removes unnecessary symbols. - If a p-value column is present, it is processed using the <code><a href="reference/stylize_p.html">stylize_p()</a></code> function.</p>
-<p><code><a href="reference/stylize_p.html">stylize_p()</a></code> function: - Rounds and formats p-values for improved readability. - The function aims to round values to 2 decimal places whenever feasible. - Values less than 0.001 are expressed as “&lt;0.001”. - Specifically avoids outputting “0.05”, as this value may not hold practical meaning for the reader when the significance level (alpha) is set at 0.05. - If the round result is equal to “0.050”, the original value is given without any rounding. - If the original value (prior to rounding) is equal to 0.050, the original value is given without any rounding.</p>
 <div class="section level4">
-<h4 id="usage">Usage:<a class="anchor" aria-label="anchor" href="#usage"></a>
+<h4 id="stylize_tableone-function">
+<code>stylize_tableone()</code> function:<a class="anchor" aria-label="anchor" href="#stylize_tableone-function"></a>
 </h4>
+<ul>
+<li>Processes a <code>tableone</code> object to a lean, more publication-ready format.</li>
+<li>Converts rownames to column names, transfers percentage symbols, and removes unnecessary symbols.</li>
+<li>If a p-value column is present, it is processed using the <code><a href="reference/stylize_p.html">stylize_p()</a></code> function.</li>
+</ul>
+</div>
+<div class="section level4">
+<h4 id="stylize_p-function">
+<code>stylize_p()</code> function:<a class="anchor" aria-label="anchor" href="#stylize_p-function"></a>
+</h4>
+<ul>
+<li>Rounds and formats p-values for improved readability.</li>
+<li>The function aims to round values to 2 decimal places whenever feasible.</li>
+<li>Values less than 0.001 are expressed as “&lt;0.001”.</li>
+<li>Specifically avoids outputting “0.05”, as this value may not hold practical meaning for the reader when the significance level (alpha) is set at 0.05.</li>
+<li>If the round result is equal to “0.050”, the original value is given without any rounding.</li>
+<li>If the original value (prior to rounding) is equal to 0.050, the original value is given without any rounding.</li>
+</ul>
+<div class="section level5">
+<h5 id="usage">Usage:<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h5>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/stylize_p.html">stylize_p</a></span><span class="op">(</span><span class="fl">0.05795</span><span class="op">)</span>  <span class="co"># Returns: "0.06"</span></span>
 <span><span class="fu"><a href="reference/stylize_p.html">stylize_p</a></span><span class="op">(</span><span class="fl">0.0499</span><span class="op">)</span>   <span class="co"># Returns: "0.0499"</span></span>
 <span><span class="fu"><a href="reference/stylize_p.html">stylize_p</a></span><span class="op">(</span><span class="fl">0.002</span><span class="op">)</span>    <span class="co"># Returns: "0.002"</span></span>
 <span><span class="fu"><a href="reference/stylize_p.html">stylize_p</a></span><span class="op">(</span><span class="fl">0.0005</span><span class="op">)</span>   <span class="co"># Returns: "&lt;0.001"</span></span></code></pre></div>
-<p><code><a href="reference/stylize1.html">stylize1()</a></code> function: - Stylizes numeric values according to a set of custom rules. - Rounds values to 1 decimal place unless they round to a smaller digit. - Optional parameter to specify a threshold for displaying values as “&lt;threshold”. - Very large or small values are expressed as powers of 10.</p>
+</div>
 </div>
 <div class="section level4">
-<h4 id="usage-1">Usage:<a class="anchor" aria-label="anchor" href="#usage-1"></a>
+<h4 id="stylize1-function">
+<code>stylize1()</code> function:<a class="anchor" aria-label="anchor" href="#stylize1-function"></a>
 </h4>
+<ul>
+<li>Stylizes numeric values according to a set of custom rules.</li>
+<li>Rounds values to 1 decimal place unless they round to a smaller digit.</li>
+<li>Optional parameter to specify a threshold for displaying values as “&lt;threshold”.</li>
+<li>Very large or small values are expressed as powers of 10.</li>
+</ul>
+<div class="section level5">
+<h5 id="usage-1">Usage:<a class="anchor" aria-label="anchor" href="#usage-1"></a>
+</h5>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/stylize1.html">stylize1</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span><span class="op">)</span>   <span class="co"># Returns: "-0.1"</span></span>
 <span><span class="fu"><a href="reference/stylize1.html">stylize1</a></span><span class="op">(</span><span class="fl">0.002</span><span class="op">)</span>   <span class="co"># Returns: "0.002"</span></span>
 <span><span class="fu"><a href="reference/stylize1.html">stylize1</a></span><span class="op">(</span><span class="fl">0.0005</span>, <span class="fl">0.001</span><span class="op">)</span>  <span class="co"># Returns: "&lt;0.001"</span></span></code></pre></div>
-<p><code><a href="reference/stylize2.html">stylize2()</a></code> function: - Similar to <code><a href="reference/stylize1.html">stylize1()</a></code>, this function stylizes numeric values according to custom rules, but aiming for 2 decimal places. - Very large or small values are expressed as powers of 10. - Optional parameter to specify a threshold for displaying values as “&lt;threshold”.</p>
+</div>
 </div>
 <div class="section level4">
-<h4 id="usage-2">Usage:<a class="anchor" aria-label="anchor" href="#usage-2"></a>
+<h4 id="stylize2-function">
+<code>stylize2()</code> function:<a class="anchor" aria-label="anchor" href="#stylize2-function"></a>
 </h4>
+<ul>
+<li>Similar to <code><a href="reference/stylize1.html">stylize1()</a></code>, this function stylizes numeric values according to custom rules, but aiming for 2 decimal places.</li>
+<li>Very large or small values are expressed as powers of 10.</li>
+<li>Optional parameter to specify a threshold for displaying values as “&lt;threshold”.</li>
+</ul>
+<div class="section level5">
+<h5 id="usage-2">Usage:<a class="anchor" aria-label="anchor" href="#usage-2"></a>
+</h5>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/stylize2.html">stylize2</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span><span class="op">)</span>   <span class="co"># Returns: "-0.10"</span></span>
 <span><span class="fu"><a href="reference/stylize2.html">stylize2</a></span><span class="op">(</span><span class="fl">0.002</span><span class="op">)</span>   <span class="co"># Returns: "0.002"</span></span>
 <span><span class="fu"><a href="reference/stylize2.html">stylize2</a></span><span class="op">(</span><span class="fl">0.0005</span>, <span class="fl">0.001</span><span class="op">)</span>  <span class="co"># Returns: "&lt;0.001"</span></span></code></pre></div>
 </div>
 </div>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>```R # Install the development version from GitHub devtools::install_github(“vljlangen/tablestylizer”)</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Install the development version from GitHub</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"vljlangen/tablestylizer"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">

@@ -5,6 +5,7 @@
 
 The `tablestylizer` R package provides a set of functions for styling and formatting tables, making them more suitable for publication. It is designed to enhance the visual appeal and clarity of tables generated in R.
 
+
 ## Key Features
 
 #### `stylize_tableone()` function:
@@ -29,6 +30,7 @@ stylize_p(0.002)    # Returns: "0.002"
 stylize_p(0.0005)   # Returns: "<0.001"
 ```
 
+
 #### `stylize1()` function:
 - Stylizes numeric values according to a set of custom rules.
 - Rounds values to 1 decimal place unless they round to a smaller digit.
@@ -42,6 +44,7 @@ stylize1(0.002)   # Returns: "0.002"
 stylize1(0.0005, 0.001)  # Returns: "<0.001"
 ```
 
+
 #### `stylize2()` function:
 - Similar to `stylize1()`, this function stylizes numeric values according to custom rules, but aiming for 2 decimal places.
 - Very large or small values are expressed as powers of 10.
@@ -54,8 +57,10 @@ stylize2(0.002)   # Returns: "0.002"
 stylize2(0.0005, 0.001)  # Returns: "<0.001"
 ```
 
+
 ## Installation
 
 ```R
 # Install the development version from GitHub
 devtools::install_github("vljlangen/tablestylizer")
+```
