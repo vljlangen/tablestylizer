@@ -1,10 +1,10 @@
 # tablestylizer: R Package for Styling and Formatting Tables
 
-
 ## Overview
 
 The `tablestylizer` R package provides a set of functions for styling and formatting tables, making them more suitable for publication. It is designed to enhance the visual appeal and clarity of tables generated in R.
 
+<br />
 
 ## Key Features
 
@@ -13,6 +13,7 @@ The `tablestylizer` R package provides a set of functions for styling and format
 - Converts rownames to column names, transfers percentage symbols, and removes unnecessary symbols.
 - If a p-value column is present, it is processed using the `stylize_p()` function.
 
+<br />
 
 #### `stylize_p()` function:
 - Rounds and formats p-values for improved readability.
@@ -30,6 +31,7 @@ stylize_p(0.002)    # Returns: "0.002"
 stylize_p(0.0005)   # Returns: "<0.001"
 ```
 
+<br />
 
 #### `stylize1()` function:
 - Stylizes numeric values according to a set of custom rules.
@@ -44,6 +46,7 @@ stylize1(0.002)   # Returns: "0.002"
 stylize1(0.0005, 0.001)  # Returns: "<0.001"
 ```
 
+<br />
 
 #### `stylize2()` function:
 - Similar to `stylize1()`, this function stylizes numeric values according to custom rules, but aiming for 2 decimal places.
@@ -57,6 +60,7 @@ stylize2(0.002)   # Returns: "0.002"
 stylize2(0.0005, 0.001)  # Returns: "<0.001"
 ```
 
+<br />
 
 ## Installation
 
