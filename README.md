@@ -1,5 +1,7 @@
 # tablestylizer: R Package for Styling and Formatting Tables
 
+<br />
+
 ## Overview
 
 The `tablestylizer` R package provides a set of functions for styling and formatting tables, making them more suitable for publication. It is designed to enhance the visual appeal and clarity of tables generated in R.
