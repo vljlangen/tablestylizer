@@ -13,7 +13,7 @@ The `tablestylizer` R package provides a set of functions for styling and format
 - If a p-value column is present, it is processed using the `stylize_p()` function.
 
 
-### stylize_p() function:
+#### stylize_p() function:
 - Rounds and formats p-values for improved readability.
 - The function aims to round values to 2 decimal places whenever feasible.
 - Values less than 0.001 are expressed as "<0.001".
@@ -21,7 +21,7 @@ The `tablestylizer` R package provides a set of functions for styling and format
 - If the round result is equal to "0.050", the original value is given without any rounding.
 - If the original value (prior to rounding) is equal to 0.050, the original value is given without any rounding.
 
-#### Usage:
+##### Usage:
 ```R
 stylize_p(0.05795)  # Returns: "0.06"
 stylize_p(0.0499)   # Returns: "0.0499"
