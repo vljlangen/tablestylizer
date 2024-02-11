@@ -7,13 +7,13 @@ The `tablestylizer` R package provides a set of functions for styling and format
 
 ## Key Features
 
-`stylize_tableone()` function:
+### `stylize_tableone()` function:
 - Processes a `tableone` object to a lean, more publication-ready format.
 - Converts rownames to column names, transfers percentage symbols, and removes unnecessary symbols.
 - If a p-value column is present, it is processed using the `stylize_p()` function.
 
 
-`stylize_p()` function:
+### stylize_p() function:
 - Rounds and formats p-values for improved readability.
 - The function aims to round values to 2 decimal places whenever feasible.
 - Values less than 0.001 are expressed as "<0.001".
