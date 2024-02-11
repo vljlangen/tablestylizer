@@ -7,13 +7,13 @@ The `tablestylizer` R package provides a set of functions for styling and format
 
 ## Key Features
 
-### `stylize_tableone()` function:
+#### `stylize_tableone()` function:
 - Processes a `tableone` object to a lean, more publication-ready format.
 - Converts rownames to column names, transfers percentage symbols, and removes unnecessary symbols.
 - If a p-value column is present, it is processed using the `stylize_p()` function.
 
 
-#### stylize_p() function:
+#### `stylize_p()` function:
 - Rounds and formats p-values for improved readability.
 - The function aims to round values to 2 decimal places whenever feasible.
 - Values less than 0.001 are expressed as "<0.001".
@@ -29,25 +29,25 @@ stylize_p(0.002)    # Returns: "0.002"
 stylize_p(0.0005)   # Returns: "<0.001"
 ```
 
-`stylize1()` function:
+#### `stylize1()` function:
 - Stylizes numeric values according to a set of custom rules.
 - Rounds values to 1 decimal place unless they round to a smaller digit.
 - Optional parameter to specify a threshold for displaying values as "<threshold".
 - Very large or small values are expressed as powers of 10.
 
-#### Usage:
+##### Usage:
 ```R
 stylize1(-0.05)   # Returns: "-0.1"
 stylize1(0.002)   # Returns: "0.002"
 stylize1(0.0005, 0.001)  # Returns: "<0.001"
 ```
 
-`stylize2()` function:
+#### `stylize2()` function:
 - Similar to `stylize1()`, this function stylizes numeric values according to custom rules, but aiming for 2 decimal places.
 - Very large or small values are expressed as powers of 10.
 - Optional parameter to specify a threshold for displaying values as "<threshold".
 
-#### Usage:
+##### Usage:
 ```R
 stylize2(-0.05)   # Returns: "-0.10"
 stylize2(0.002)   # Returns: "0.002"
